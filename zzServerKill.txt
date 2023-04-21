@@ -1,0 +1,13 @@
+Find and kill the process using port 8000:
+First, identify the process ID (PID) by running the following command in your terminal:
+
+For Windows: netstat -ano | findstr :8000
+For macOS/Linux: lsof -i :8000
+You'll see a list of processes using that port. Identify the process ID (PID) and kill it using the following command:
+
+For Windows: taskkill /PID <PID> /F
+For macOS/Linux: kill -9 <PID>
+Replace <PID> with the process ID you found earlier. After killing the process, you can start your server again with npm start.
+
+
+test
