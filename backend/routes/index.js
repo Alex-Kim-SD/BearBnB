@@ -16,13 +16,15 @@ router.get("/api/csrf/restore", (req, res) => {
   });
 });
 // ...
-
-
 // ...
 // backend/routes/index.js
 const apiRouter = require('./api');
 
 router.use('/api', apiRouter);
 // ...
+
+// csrf route for testing
+const csrfRouter = require('./csrf');
+router.use('/csrf', csrfRouter);
 
 module.exports = router;
