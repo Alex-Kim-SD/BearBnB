@@ -36,6 +36,7 @@ const validateSignup = [
 ];
 
 // SIGN-UP-USER
+// **********************************************************
 router.post(
   '',
   validateSignup,
@@ -108,7 +109,7 @@ router.get('/current-user', restoreUser, getCurrentUser);
 // ***************************************************
 
 
-// GET-CURRENT-USER
+// GET-ALL-USERS
 // *************************************************************************
 router.get('/', async (req, res) => {
   const users = await User.findAll({
