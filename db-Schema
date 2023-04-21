@@ -1,0 +1,68 @@
+Table users {
+  id integer [primary key]
+  firstName varchar
+  lastName varchar
+  email varchar
+  password_hash varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table spots {
+  id integer [primary key]
+  ownerId integer
+  address varchar
+  city varchar
+  state varchar
+  country varchar
+  lat float
+  lng float
+  name varchar
+  description varchar
+  price float
+  createdAt timestamp
+  updatedAt timestamp
+  previewImage integer
+  avgRating float
+}
+
+Table spot_images {
+  id integer [primary key]
+  spotId integer
+  url varchar
+  preview boolean
+}
+
+Table reviews {
+  id integer [primary key]
+  userId integer
+  spotId integer
+  review text
+  stars integer
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table review_images {
+  id integer [primary key]
+  reviewId integer
+  url varchar
+}
+
+Table bookings {
+  id integer [primary key]
+  userId integer
+  spotId integer
+  startDate date
+  endDate date
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Ref: spots.ownerId > users.id
+Ref: spot_images.spotId > spots.id
+Ref: reviews.userId > users.id
+Ref: reviews.spotId > spots.id
+Ref: review_images.reviewId > reviews.id
+Ref: bookings.userId > users.id
+Ref: bookings.spotId > spots.id
