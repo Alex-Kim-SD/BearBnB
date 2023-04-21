@@ -1,7 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
-const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
+const {generateToken, setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -87,6 +88,54 @@ router.post(
 );
 // *************************************************************************
 
+// LOG-OUT-User
+// *************************************************************************
+router.post('/logout', async (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logged out successfully' });
+});
+// *************************************************************************
+
+// LOG-IN-User
+// *************************************************************************
+router.post('/login', async (req, res) => {
+  const { credential, password } = req.body;
+
+  if (!credential || !password) {
+    const errors = {};
+    if (!credential) errors.credential = 'Email or username is required';
+    if (!password) errors.password = 'Password is required';
+    return res.status(400).json({ message: 'Bad Request', errors });
+  }
+
+  const user = await User.findOne({ //one thing to note is this might cause problems if multiple ahve the same username
+    where: {
+      [Op.or]: [{ email: credential }, { username: credential }],
+    },
+  });
+
+  console.log('password attempt:', password);
+  console.log('user', user);
+  if (!user || !bcrypt.compareSync(password, user.password_hash)) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  const userInfo = {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName
+  };
+
+  const token = generateToken(userInfo);
+
+  setTokenCookie(res, token);
+
+  res.status(200).json({ user: userInfo, token });
+});
+// *************************************************************************
+
 // GET-CURRENT-USER
 // *************************************************************************
 const getCurrentUser = (req, res) => {
@@ -99,7 +148,7 @@ const getCurrentUser = (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName
     };
-    return res.status(200).json({ user: userInfo });
+    return res.status(200).json({ userInfo });
   } else {
     return res.status(200).json({ user: null });
   }

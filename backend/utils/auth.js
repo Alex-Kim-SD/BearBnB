@@ -60,6 +60,17 @@ const restoreUser = (req, res, next) => {
     });
 };
 
+const generateToken = (user) => {
+    const payload = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    };
+
+    return jwt.sign(payload, secret, {
+      expiresIn: parseInt(expiresIn),
+    });
+  };
 // If there is no current user, return an error
 const requireAuth = function (req, _res, next) {
     if (req.user) return next();
@@ -71,4 +82,4 @@ const requireAuth = function (req, _res, next) {
     return next(err);
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+module.exports = { generateToken, setTokenCookie, restoreUser, requireAuth };
