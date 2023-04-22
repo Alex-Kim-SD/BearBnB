@@ -120,7 +120,7 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const userInfo = {
+  const safeUser = {
     id: user.id,
     email: user.email,
     username: user.username,
@@ -128,11 +128,11 @@ router.post('/login', async (req, res) => {
     lastName: user.lastName
   };
 
-  const token = generateToken(userInfo);
+  await setTokenCookie(res, safeUser);
 
-  setTokenCookie(res, token);
-
-  res.status(200).json({ user: userInfo, token });
+  return res.status(200).json({
+    user: safeUser
+  });
 });
 // *************************************************************************
 
