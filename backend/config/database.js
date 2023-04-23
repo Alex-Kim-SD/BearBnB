@@ -3,8 +3,8 @@ const config = require('./index');
 
 module.exports = {
   development: {
-    storage: config.dbFile,
     dialect: "sqlite",
+    storage: "db/dev.db",
     seederStorage: "sequelize",
     logQueryParameters: true,
     typeValidation: true

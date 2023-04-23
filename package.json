@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Alex-Kim-SD/API-project#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "sqlite3": "^5.1.6"
   }
 }
