@@ -1,8 +1,5 @@
-// backend/utils/validation.js
-const { validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
-// middleware for formatting errors from express-validator middleware
-// (to customize, see express-validator's documentation)
 const handleValidationErrors = (req, _res, next) => {
   const validationErrors = validationResult(req);
 
@@ -21,6 +18,23 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+const validateReviewBody = [
+  check('review')
+    .notEmpty()
+    .withMessage('Review text is required'),
+  check('stars')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: 'Bad Request', errors: errors.array() });
+    }
+    next();
+  },
+];
+
 module.exports = {
-  handleValidationErrors
+  handleValidationErrors,
+  validateReviewBody,
 };

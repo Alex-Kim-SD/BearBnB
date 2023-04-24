@@ -1,60 +1,24 @@
 const express = require('express');
+const { Review } = require('../../db/models');
 const router = express.Router();
-const { Review, User, Spot, ReviewImage } = require('../../db/models');
-const { requireAuth } = require('../../utils/auth');
 
-// GET-ALL-REVIEWS-OF-CURRENT-USER
-// **********************************************************
-router.get('/', requireAuth, async (req, res, next) => {
+// GET all reviews for the current logged-in user
+//*****************************************************************
+router.get('/', async (req, res) => {
   try {
-    const currentUserId = req.user.id;
     const reviews = await Review.findAll({
-      where: {
-        user_id: currentUserId,
-      },
-      attributes: [
-        'id',
-        'user_id',
-        'spot_id',
-        'review',
-        'stars',
-        'created_at',
-        'updated_at'
-      ],
-      include: [
-        {
-          model: User,
-          attributes: ['id', 'first_name', 'last_name']
-        },
-        {
-          model: Spot,
-          attributes: [
-            'id',
-            'owner_id',
-            'address',
-            'city',
-            'state',
-            'country',
-            'lat',
-            'lng',
-            'name',
-            'price',
-            'preview_image'
-          ]
-        },
-        {
-          model: ReviewImage,
-          attributes: ['id', 'url']
-        }
-      ]
+      where: { user_id: req.user.id },
     });
-
-    res.status(200).json({ Reviews: reviews });
+    res.json({Review: reviews});
   } catch (err) {
-    next(err);
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
-// **********************************************************
+//*****************************************************************
 
+// Create a new review for a spot
+//*****************************************************************
 
+//*****************************************************************
 module.exports = router;

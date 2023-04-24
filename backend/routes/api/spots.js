@@ -5,6 +5,7 @@ const { User, SpotImage, Review, ReviewImage, Booking } = require('../../db/mode
 
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
+const { validateReviewBody } = require('../../utils/validation')
 
 
 const spotValidation = [
@@ -287,5 +288,45 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 });
 // **********************************************************
 
+// CREATE NEW REVIEW FOR SPOT
+// **********************************************************
+router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res) => {
+  try {
+    const { spotId } = req.params;
+    const { review, stars } = req.body;
+    const userId = req.user.id;
 
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    const existingReview = await Review.findOne({ where: { user_id: userId, spot_id: spot.id } });
+
+    if (existingReview) {
+      return res.status(500).json({ message: 'User already has a review for this spot' });
+    }
+
+    const newReview = await Review.create({
+      user_id: userId,
+      spot_id: spot.id,
+      review,
+      stars,
+    });
+
+    res.status(201).json({
+      id: newReview.id,
+      userId: newReview.user_id,
+      spotId: newReview.spot_id,
+      review: newReview.review,
+      stars: newReview.stars,
+      createdAt: newReview.created_at,
+      updatedAt: newReview.updated_at
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 module.exports = router;

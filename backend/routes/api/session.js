@@ -65,7 +65,7 @@ router.post(
   }
 );
 
-  // backend/routes/api/session.js
+// backend/routes/api/session.js
 // ...
 // backend/routes/api/session.js
 // ...
@@ -73,14 +73,14 @@ router.post(
 
 // Log out
 router.delete(
-    '/',
-    (_req, res) => {
-      res.clearCookie('token');
-      return res.json({ message: 'success' });
-    }
-  );
+  '/',
+  (_req, res) => {
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+  }
+);
 
-  // ...
+// ...
 // backend/routes/api/session.js
 // ...
 
@@ -104,5 +104,5 @@ router.get(
   }
 );
 
-  // ...
-  module.exports = router;
+// ...
+module.exports = router;
