@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Spots', [
+    return queryInterface.bulkInsert('spots', [
       {
         owner_id: 1,
         address: '123 Main St',
@@ -39,6 +39,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Spots', null, {});
+    return queryInterface.bulkDelete('spots', null, {});
   },
 };
