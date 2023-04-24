@@ -18,7 +18,7 @@ module.exports = {
         end_date: new Date('2023-05-12'),
         created_at: new Date(),
         updated_at: new Date(),
-      },
+      }
     ]);
   },
 

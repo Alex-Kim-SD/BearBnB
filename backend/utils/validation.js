@@ -34,7 +34,24 @@ const validateReviewBody = [
   },
 ];
 
+const validateBookingBody = [
+  check('startDate')
+    .isISO8601()
+    .withMessage('startDate must be a valid ISO 8601 date'),
+  check('endDate')
+    .isISO8601()
+    .withMessage('endDate must be a valid ISO 8601 date')
+    .custom((value, { req }) => {
+      if (value <= req.body.startDate) {
+        throw new Error('endDate cannot be on or before startDate');
+      }
+      return true;
+    }),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateReviewBody,
+  validateBookingBody,
 };

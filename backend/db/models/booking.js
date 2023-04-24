@@ -20,12 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       user_id: DataTypes.INTEGER,
       spot_id: DataTypes.INTEGER,
       start_date: DataTypes.DATE,
-      end_date: DataTypes.DATE
+      end_date: DataTypes.DATE,
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE
     },
     {
       sequelize,
       modelName: 'Booking',
-      tableName: 'bookings'
+      tableName: 'bookings',
+      underscored: true,
+      timestamps: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
     }
   );
   return Booking;
