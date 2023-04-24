@@ -18,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'SpotImage',
-      tableName: 'spot_images'
+      tableName: 'spot_images',
+      underscored: true, // Add this line
+      timestamps: true,  // Add this line
+      createdAt: 'created_at', // Add this line
+      updatedAt: 'updated_at'  // Add this line
     }
   );
   return SpotImage;

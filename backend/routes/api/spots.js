@@ -130,4 +130,94 @@ router.get('/spot/:id', async (req, res, next) => {
 });
 // **********************************************************
 
+// ADD IMAGE TO SPOT ID
+// **********************************************************
+router.post('/spot/:id/images', requireAuth, async (req, res, next) => {
+  const spotId = req.params.id;
+  const { url, preview } = req.body;
+
+  const spot = await Spot.findOne({
+    where: {
+      id: spotId,
+      owner_id: req.user.id,
+    },
+  });
+
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  const newImage = await SpotImage.create({
+    spot_id: spot.id,
+    url,
+    preview,
+  });
+
+  res.status(200).json({
+    id: newImage.id,
+    url: newImage.url,
+    preview: newImage.preview,
+  });
+});
+// **********************************************************
+
+// EDIT SPOT BY ID
+// **********************************************************
+router.post('/:id', requireAuth, async (req, res, next) => {
+  const currentUserId = req.user.id;
+  const spotId = req.params.id;
+  const {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price
+  } = req.body;
+
+  // Validate the request body
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: 'Bad Request', errors: errors.mapped() });
+  }
+
+  try {
+    // Find the spot to update
+    const spot = await Spot.findOne({
+      where: {
+        id: spotId,
+        owner_id: currentUserId,
+      },
+    });
+
+    // If the spot doesn't exist, return a 404 response
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    // Update the spot's properties
+    if(address) spot.address = address;
+    if(city) spot.city = city;
+    if(state) spot.state = state;
+    if(country) spot.country = country;
+    if(lat) spot.lat = lat;
+    if(lng) spot.lng = lng;
+    if(name) spot.name = name;
+    if(description) spot.description = description;
+    if(price) spot.price = price;
+
+    // Save the updated spot to the database
+    await spot.save();
+
+    // Return the updated spot object
+    res.json(spot);
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
+
 module.exports = router;
