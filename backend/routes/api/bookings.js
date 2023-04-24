@@ -1,13 +1,13 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { Booking, Spot } = require('../../db/models');
+const { Booking, Spot, User } = require('../../db/models');
 const router = express.Router();
 const { validateBookingBody } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
 // GET all bookings for the current logged-in user
 //*****************************************************************
-router.get('/', requireAuth, async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
   try {
     const bookings = await Booking.findAll({
       where: { user_id: req.user.id },
@@ -153,25 +153,33 @@ router.put('/:bookingId', requireAuth, validateBookingBody, async (req, res) => 
 });
 // **********************************************************
 
-// DELETE an existing booking
+// DELETE A BOOKING
 // **********************************************************
 router.delete('/:bookingId', requireAuth, async (req, res) => {
   try {
     const { bookingId } = req.params;
-    const userId = req.user.id;
+    const currentUserId = req.user.id;
 
     const booking = await Booking.findByPk(bookingId, {
-      include: {
-        model: Spot,
-        as: 'spot',
-        attributes: ['owner_id'] },
+      include: [
+        {
+          model: Spot,
+          as: 'spot',
+          attributes: ['owner_id']
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id']
+        }
+      ],
     });
 
     if (!booking) {
       return res.status(404).json({ message: "Booking couldn't be found" });
     }
 
-    if (booking.user_id !== userId && booking.Spot.owner_id !== userId) {
+    if (booking.user.id !== currentUserId && booking.spot.ownerId !== currentUserId) {
       return res.status(403).json({ message: "Unauthorized to delete this booking" });
     }
 

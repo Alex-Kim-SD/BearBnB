@@ -1,23 +1,44 @@
 const express = require('express');
 const {generateToken, setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { validateReviewBody } = require('../../utils/validation')
-const { Review, ReviewImage } = require('../../db/models');
+const { Review, ReviewImage, User, Spot } = require('../../db/models');
 
 const router = express.Router();
 
 // GET all reviews for the current logged-in user
 //*****************************************************************
-router.get('/', async (req, res) => {
+router.get('/current', async (req, res) => {
   try {
     const reviews = await Review.findAll({
       where: { user_id: req.user.id },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'first_name', 'last_name']
+        },
+        {
+          model: Spot,
+          as: 'spot',
+          attributes: [
+            'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
+            'name', 'price', 'preview_image'
+          ]
+        },
+        {
+          model: ReviewImage,
+          as: 'reviewImages',
+          attributes: ['id', 'url']
+        }
+      ],
     });
-    res.json({Review: reviews});
+    res.json({ Reviews: reviews });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 //*****************************************************************
 
 // DELETE REVIEW
