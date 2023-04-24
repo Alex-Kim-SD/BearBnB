@@ -4,21 +4,20 @@ module.exports = (sequelize, DataTypes) => {
   class ReviewImage extends Model {
     static associate(models) {
       ReviewImage.belongsTo(models.Review, {
-        foreignKey: 'reviewId',
+        foreignKey: 'review_id',
         as: 'review'
       });
     }
   }
   ReviewImage.init(
     {
-      reviewId: DataTypes.INTEGER,
+      review_id: DataTypes.INTEGER,
       url: DataTypes.STRING
     },
     {
       sequelize,
       modelName: 'ReviewImage',
-      tableName: 'review_images',
-      underscored: true
+      tableName: 'review_images'
     }
   );
   return ReviewImage;

@@ -4,15 +4,15 @@ module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     static associate(models) {
       Review.belongsTo(models.User, {
-        foreignKey: 'userId',
+        foreignKey: 'user_id',
         as: 'user'
       });
       Review.belongsTo(models.Spot, {
-        foreignKey: 'spotId',
+        foreignKey: 'spot_id',
         as: 'spot'
       });
       Review.hasMany(models.ReviewImage, {
-        foreignKey: 'reviewId',
+        foreignKey: 'review_id',
         as: 'reviewImages'
       });
     }
@@ -24,16 +24,15 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      userId: DataTypes.INTEGER,
-      spotId: DataTypes.INTEGER,
+      user_id: DataTypes.INTEGER,
+      spot_id: DataTypes.INTEGER,
       review: DataTypes.TEXT,
       stars: DataTypes.INTEGER
     },
     {
       sequelize,
       modelName: 'Review',
-      tableName: 'reviews',
-      underscored: true
+      tableName: 'reviews'
     }
   );
   return Review;

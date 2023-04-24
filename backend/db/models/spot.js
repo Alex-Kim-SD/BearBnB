@@ -4,19 +4,20 @@ module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     static associate(models) {
       Spot.belongsTo(models.User, {
-        foreignKey: 'ownerId',
-        as: 'owner'
+        foreignKey: 'owner_id',
+        as: 'owner',
+        field: 'owner_id' // Add this line
       });
       Spot.hasMany(models.SpotImage, {
-        foreignKey: 'spotId',
+        foreignKey: 'spot_id',
         as: 'spotImages'
       });
       Spot.hasMany(models.Review, {
-        foreignKey: 'spotId',
+        foreignKey: 'spot_id',
         as: 'reviews'
       });
       Spot.hasMany(models.Booking, {
-        foreignKey: 'spotId',
+        foreignKey: 'spot_id',
         as: 'bookings'
       });
     }
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      ownerId: {
+      owner_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -41,16 +42,19 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       price: DataTypes.FLOAT,
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
-      previewImage: DataTypes.INTEGER,
-      avgRating: DataTypes.FLOAT
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
+      preview_image: DataTypes.INTEGER,
+      avg_rating: DataTypes.FLOAT
     },
     {
       sequelize,
       modelName: 'Spot',
       tableName: 'spots',
-      underscored: true
+      underscored: true, // Add this line
+      timestamps: true,  // Add this line
+      createdAt: 'created_at', // Add this line
+      updatedAt: 'updated_at'  // Add this line
     }
   );
   return Spot;

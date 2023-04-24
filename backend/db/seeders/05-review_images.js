@@ -4,16 +4,16 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('review_images', [
       {
-        reviewId: 1,
+        review_id: 1,
         url: 'https://example.com/review-image1.jpg',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
-        reviewId: 2,
+        review_id: 2,
         url: 'https://example.com/review-image2.jpg',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },

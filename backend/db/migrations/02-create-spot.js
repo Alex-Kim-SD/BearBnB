@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ownerId: {
+      owner_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -43,18 +43,18 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      previewImage: {
+      preview_image: {
         type: Sequelize.INTEGER
       },
-      avgRating: {
+      avg_rating: {
         type: Sequelize.FLOAT
       }
     });

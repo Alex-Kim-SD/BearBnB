@@ -27,10 +27,10 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-  check('firstName')
+  check('first_name')
     .exists({ checkFalsy: true })
     .withMessage('First Name is required'),
-  check('lastName')
+  check('last_name')
     .exists({ checkFalsy: true })
     .withMessage('Last Name is required'),
   handleValidationErrors
@@ -42,7 +42,7 @@ router.post(
   '',
   validateSignup,
   async (req, res) => {
-    const { email, password, username, firstName, lastName } = req.body;
+    const { email, password, username, first_name, last_name } = req.body;
 
     // Check if a user with the provided email or username already exists
     const existingUserByEmail = await User.findOne({ where: { email } });
@@ -67,16 +67,16 @@ router.post(
     }
 
     const role = 'user';
-    const createdAt = new Date();
+    const created_at = new Date();
     const hashedPassword = bcrypt.hashSync(password);
-    const user = await User.create({ email, username, password_hash: hashedPassword, firstName, lastName, role, created_at: createdAt });
+    const user = await User.create({ email, username, password_hash: hashedPassword, first_name, last_name, role, created_at: created_at });
 
     const safeUser = {
       id: user.id,
       email: user.email,
       username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName
+      first_name: user.first_name,
+      last_name: user.last_name
     };
 
     await setTokenCookie(res, safeUser);
@@ -114,8 +114,6 @@ router.post('/login', async (req, res) => {
     },
   });
 
-  console.log('password attempt:', password);
-  console.log('user', user);
   if (!user || !bcrypt.compareSync(password, user.password_hash)) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
@@ -124,11 +122,11 @@ router.post('/login', async (req, res) => {
     id: user.id,
     email: user.email,
     username: user.username,
-    firstName: user.firstName,
-    lastName: user.lastName
+    first_name: user.first_name,
+    last_name: user.last_name
   };
 
-  await setTokenCookie(res, safeUser);
+  setTokenCookie(res, safeUser);
 
   return res.status(200).json({
     user: safeUser
@@ -139,14 +137,15 @@ router.post('/login', async (req, res) => {
 // GET-CURRENT-USER
 // *************************************************************************
 const getCurrentUser = (req, res) => {
+  console.log(req.user)
   const { user } = req;
   if (user) {
     const userInfo = {
       id: user.id,
       email: user.email,
       username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName
+      first_name: user.first_name,
+      last_name: user.last_name
     };
     return res.status(200).json({ userInfo });
   } else {
@@ -162,7 +161,7 @@ router.get('/current-user', restoreUser, getCurrentUser);
 // *************************************************************************
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    attributes: ['id', 'email', 'username', 'firstName', 'lastName']
+    attributes: ['id', 'email', 'username', 'first_name', 'last_name']
   });
 
   res.status(200).json({

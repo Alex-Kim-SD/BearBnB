@@ -10,6 +10,8 @@ const config = require('./config/database.js');
 const { environment } = require('./config');
 const sequelize = new Sequelize(config.development);
 
+const session = require('express-session');
+
 const isProduction = environment === 'production';
 
 const app = express(); // initialize the express application
@@ -40,6 +42,19 @@ app.use(
     })
 );
 
+const { restoreUser } = require('./utils/auth');
+
+// ...
+
+app.use(restoreUser);
+app.use(session({
+    secret: 'your-secret-key', // Replace 'your-secret-key' with your own secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
+    }
+}));
 // Set the _csrf token and create req.csrfToken method
 // Add the csurf middleware and configure it to use cookies.
 app.use(
@@ -95,4 +110,6 @@ app.use((err, _req, res, _next) => {
     });
 });
 // ...
+
+
 module.exports = app;

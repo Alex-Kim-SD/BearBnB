@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Spots', [
       {
-        ownerId: 1,
+        owner_id: 1,
         address: '123 Main St',
         city: 'Los Angeles',
         state: 'CA',
@@ -14,13 +14,13 @@ module.exports = {
         name: 'Downtown Parking',
         description: 'Secure and convenient parking spot in downtown LA.',
         price: 10.0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        previewImage: 1,
-        avgRating: 4.5,
+        created_at: new Date(),
+        updated_at: new Date(),
+        preview_image: 1,
+        avg_rating: 4.5,
       },
       {
-        ownerId: 2,
+        owner_id: 2,
         address: '789 Market St',
         city: 'San Francisco',
         state: 'CA',
@@ -30,10 +30,10 @@ module.exports = {
         name: 'Market Street Parking',
         description: 'Affordable parking spot near the shopping district.',
         price: 15.0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        previewImage: 3,
-        avgRating: 4.0,
+        created_at: new Date(),
+        updated_at: new Date(),
+        preview_image: 3,
+        avg_rating: 4.0,
       },
     ]);
   },

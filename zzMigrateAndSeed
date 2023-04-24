@@ -7,3 +7,6 @@ npx sequelize db:seed:all
 
 npx sequelize db:migrate
 npx sequelize db:seed:all
+
+lsof -i :8000
+kill -9 
