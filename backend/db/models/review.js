@@ -30,12 +30,18 @@ module.exports = (sequelize, DataTypes) => {
       user_id: DataTypes.INTEGER,
       spot_id: DataTypes.INTEGER,
       review: DataTypes.TEXT,
-      stars: DataTypes.INTEGER
+      stars: DataTypes.INTEGER,
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: 'Review',
-      tableName: 'reviews'
+      tableName: 'reviews',
+      underscored: true, // Add this line
+      timestamps: true,  // Add this line
+      createdAt: 'created_at', // Add this line
+      updatedAt: 'updated_at'  // Add this line
     }
   );
   return Review;

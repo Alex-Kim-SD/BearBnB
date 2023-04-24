@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Spot } = require('../../db/models');
-const { User, SpotImage, Review, Booking } = require('../../db/models'); // Import User and SpotImage models
+const { User, SpotImage, Review, ReviewImage, Booking } = require('../../db/models'); // Import User and SpotImage models
 
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
@@ -250,5 +250,42 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
   }
 });
 // **********************************************************
+
+// GET-ALL-REVIEWS-BY-SPOT-ID
+// **********************************************************
+router.get('/:spotId/reviews', async (req, res, next) => {
+  try {
+    const spotId = req.params.spotId;
+
+    // Find the spot with the specified id and include its reviews
+    const spotReviews = await Review.findAll({
+      where: {
+        spot_id: spotId,
+      },
+      include: [
+        {
+          model: User,
+          as: 'user', // change the alias to match the association alias
+          attributes: ['id', 'first_name', 'last_name'],
+        },
+        {
+          model: ReviewImage,
+          as: 'reviewImages',
+          attributes: ['id', 'url'],
+        },
+      ],
+    });
+
+    if (!spotReviews || spotReviews.length === 0) {
+      return res.status(404).json({ message: "Couldn't find any reviews for the specified spot" });
+    }
+
+    res.status(200).json({ Reviews: spotReviews });
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
+
 
 module.exports = router;
