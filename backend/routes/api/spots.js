@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { Spot } = require('../../db/models');
+const { User, SpotImage } = require('../../db/models'); // Import User and SpotImage models
+
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
+
 
 const spotValidation = [
   check('address').notEmpty().withMessage('Please provide a valid address.'),
@@ -87,6 +90,44 @@ router.get('/my-spots', requireAuth, async (req, res, next) => {
 });
 // **********************************************************
 
+// GET-SPOT-DETAILS-BY-ID
+// **********************************************************
+router.get('/spot/:id', async (req, res, next) => {
+  try {
+    const spotId = req.params.id;
 
+    const spot = await Spot.findOne({
+      where: {
+        id: spotId,
+      },
+      attributes: [
+        'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
+        'name', 'description', 'price', 'created_at', 'updated_at'
+      ],
+      include: [
+        {
+          model: SpotImage,
+          as: 'spotImages',
+          attributes: ['id', 'url', 'preview'],
+        },
+        {
+          model: User,
+          as: 'owner',
+          attributes: ['id', 'first_name', 'last_name'],
+        },
+      ],
+    });
+
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    res.status(200).json(spot);
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
 
 module.exports = router;
