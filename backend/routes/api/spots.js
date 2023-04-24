@@ -64,6 +64,28 @@ router.post('/', requireAuth, spotValidation, async (req, res, next) => {
 });
 // **********************************************************
 
+// GET-ALL-SPOTS-OWNED-BY-CURRENT-USER
+// **********************************************************
+router.get('/my-spots', requireAuth, async (req, res, next) => {
+  try {
+    const currentUserId = req.user.id;
+
+    const spots = await Spot.findAll({
+      where: {
+        owner_id: currentUserId,
+      },
+      attributes: [
+        'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
+        'name', 'description', 'price', 'created_at', 'updated_at', 'preview_image', 'avg_rating'
+      ],
+    });
+
+    res.status(200).json({ Spots: spots });
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
 
 
 
