@@ -6,15 +6,18 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Spot, {
         foreignKey: 'owner_id',
         as: 'spots',
-        field: 'owner_id' // Add this line
+        field: 'owner_id',
+        onDelete: 'CASCADE'
       });
       User.hasMany(models.Review, {
         foreignKey: 'user_id',
-        as: 'reviews'
+        as: 'reviews',
+        onDelete: 'CASCADE'
       });
       User.hasMany(models.Booking, {
         foreignKey: 'user_id',
-        as: 'bookings'
+        as: 'bookings',
+        onDelete: 'CASCADE'
       });
     }
   }

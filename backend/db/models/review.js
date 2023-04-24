@@ -5,15 +5,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Review.belongsTo(models.User, {
         foreignKey: 'user_id',
-        as: 'user'
+        as: 'user',
+        onDelete: 'CASCADE'
       });
       Review.belongsTo(models.Spot, {
         foreignKey: 'spot_id',
-        as: 'spot'
+        as: 'spot',
+        onDelete: 'CASCADE'
       });
       Review.hasMany(models.ReviewImage, {
         foreignKey: 'review_id',
-        as: 'reviewImages'
+        as: 'reviewImages',
+        onDelete: 'CASCADE'
       });
     }
   }

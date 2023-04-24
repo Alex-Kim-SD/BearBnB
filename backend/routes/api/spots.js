@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Spot } = require('../../db/models');
-const { User, SpotImage } = require('../../db/models'); // Import User and SpotImage models
+const { User, SpotImage, Review, Booking } = require('../../db/models'); // Import User and SpotImage models
 
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
@@ -92,7 +92,7 @@ router.get('/my-spots', requireAuth, async (req, res, next) => {
 
 // GET-SPOT-DETAILS-BY-ID
 // **********************************************************
-router.get('/spot/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const spotId = req.params.id;
 
@@ -132,7 +132,7 @@ router.get('/spot/:id', async (req, res, next) => {
 
 // ADD IMAGE TO SPOT ID
 // **********************************************************
-router.post('/spot/:id/images', requireAuth, async (req, res, next) => {
+router.post('/:id/images', requireAuth, async (req, res, next) => {
   const spotId = req.params.id;
   const { url, preview } = req.body;
 
@@ -199,21 +199,52 @@ router.post('/:id', requireAuth, async (req, res, next) => {
     }
 
     // Update the spot's properties
-    if(address) spot.address = address;
-    if(city) spot.city = city;
-    if(state) spot.state = state;
-    if(country) spot.country = country;
-    if(lat) spot.lat = lat;
-    if(lng) spot.lng = lng;
-    if(name) spot.name = name;
-    if(description) spot.description = description;
-    if(price) spot.price = price;
+    if (address) spot.address = address;
+    if (city) spot.city = city;
+    if (state) spot.state = state;
+    if (country) spot.country = country;
+    if (lat) spot.lat = lat;
+    if (lng) spot.lng = lng;
+    if (name) spot.name = name;
+    if (description) spot.description = description;
+    if (price) spot.price = price;
 
     // Save the updated spot to the database
     await spot.save();
 
     // Return the updated spot object
     res.json(spot);
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
+
+// DELETE-SPOT
+// **********************************************************
+router.delete('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const spotId = req.params.id;
+
+    // Check if spot exists
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    // Check if authenticated user is the owner of the spot
+    if (req.user.id !== spot.owner_id) {
+      return res.status(401).json({ message: 'You are not authorized to perform this action.' });
+    }
+
+    // Delete the spot
+    await SpotImage.destroy({ where: { spot_id: spotId } });
+    await Review.destroy({ where: { spot_id: spotId } });
+    await Booking.destroy({ where: { spot_id: spotId } });
+    await Spot.destroy({ where: { id: spotId } });
+    await spot.destroy();
+
+    res.status(200).json({ message: 'Successfully deleted' });
   } catch (err) {
     next(err);
   }

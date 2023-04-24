@@ -5,20 +5,24 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(models.User, {
         foreignKey: 'owner_id',
-        as: 'owner', // Update this line to use 'Owner' instead of 'owner'
-        field: 'owner_id'
+        as: 'owner',
+        field: 'owner_id',
+        onDelete: 'CASCADE'
       });
       Spot.hasMany(models.SpotImage, {
         foreignKey: 'spot_id',
-        as: 'spotImages'
+        as: 'spotImages',
+        onDelete: 'CASCADE'
       });
       Spot.hasMany(models.Review, {
         foreignKey: 'spot_id',
-        as: 'reviews'
+        as: 'reviews',
+        onDelete: 'CASCADE'
       });
       Spot.hasMany(models.Booking, {
         foreignKey: 'spot_id',
-        as: 'bookings'
+        as: 'bookings',
+        onDelete: 'CASCADE'
       });
     }
   }
