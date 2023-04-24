@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Spot } = require('../../db/models');
 const { User, SpotImage, Review, ReviewImage, Booking } = require('../../db/models'); // Import User and SpotImage models
-
+const { Op } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
 const { validateReviewBody } = require('../../utils/validation')
@@ -23,19 +23,56 @@ const spotValidation = [
 // GET-SPOTS
 // **********************************************************
 router.get('/', async (req, res, next) => {
+  // Extract query parameters
+  const page = parseInt(req.query.page) || 1;
+  const size = parseInt(req.query.size) || 20;
+  const minLat = parseFloat(req.query.minLat) || -90;
+  const maxLat = parseFloat(req.query.maxLat) || 90;
+  const minLng = parseFloat(req.query.minLng) || -180;
+  const maxLng = parseFloat(req.query.maxLng) || 180;
+  const minPrice = parseFloat(req.query.minPrice) || 0;
+  const maxPrice = parseFloat(req.query.maxPrice) || Infinity;
+
+  // Validate the query parameters
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: 'Validation error', errors: errors.mapped() });
+  }
+
   try {
-    const spots = await Spot.findAll({
+    const spots = await Spot.findAndCountAll({
+      where: {
+        lat: {
+          [Op.between]: [minLat, maxLat],
+        },
+        lng: {
+          [Op.between]: [minLng, maxLng],
+        },
+        price: {
+          [Op.between]: [minPrice, maxPrice],
+        },
+      },
+      limit: size,
+      offset: (page - 1) * size,
       attributes: [
         'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
         'name', 'description', 'price', 'created_at', 'updated_at', 'preview_image', 'avg_rating'
       ],
     });
 
-    res.json(spots);
+    const totalPages = Math.ceil(spots.count / size);
+
+    res.json({
+      Spots: spots.rows,
+      page,
+      size,
+      totalPages,
+    });
   } catch (err) {
     next(err);
   }
 });
+// **********************************************************
 // **********************************************************
 
 // CREATE-SPOT
@@ -329,4 +366,43 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
+// DELETE SPOT IMAGE
+// **********************************************************
+router.delete('/:spotId/images/:imageId', requireAuth, async (req, res, next) => {
+  try {
+    const { spotId, imageId } = req.params;
+
+    // Find the spot and the image to delete
+    const spot = await Spot.findOne({
+      where: {
+        id: spotId,
+        owner_id: req.user.id,
+      },
+    });
+    const imageToDelete = await SpotImage.findOne({
+      where: {
+        id: imageId,
+        spot_id: spotId,
+      },
+    });
+
+    // If the spot or image doesn't exist, return a 404 response
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+    if (!imageToDelete) {
+      return res.status(404).json({ message: "Spot Image couldn't be found" });
+    }
+
+    // Delete the image
+    await imageToDelete.destroy();
+
+    res.status(200).json({ message: 'Successfully deleted' });
+  } catch (err) {
+    next(err);
+  }
+});
+// **********************************************************
+
 module.exports = router;
