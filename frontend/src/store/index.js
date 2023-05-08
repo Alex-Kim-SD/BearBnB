@@ -1,6 +1,7 @@
 // frontend/src/store/index.js
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { restoreCSRF, csrfFetch } from './csrf';
 
 const rootReducer = combineReducers({
 });
@@ -21,3 +22,12 @@ const configureStore = (preloadedState) => {
 };
 
 export default configureStore;
+
+const store = configureStore();
+
+if (process.env.NODE_ENV !== 'production') {
+  restoreCSRF();
+
+  window.csrfFetch = csrfFetch;
+  window.store = store;
+}
