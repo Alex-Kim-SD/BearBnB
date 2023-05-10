@@ -44,16 +44,15 @@ router.post(
   async (req, res) => {
     const { email, password, username, first_name, last_name } = req.body;
 
-    // Check if a user with the provided email or username already exists
-    const existingUserByEmail = await User.findOne({ where: { email } });
-    const existingUserByUsername = await User.findOne({ where: { username } });
-
-    if (existingUserByEmail) {
-      return res.status(500).json({
-        message: "User already exists",
-        errors: {
-          email: "User with that email already exists"
-        }
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      const errors = {};
+      validationErrors
+        .array()
+        .forEach(error => errors[error] = error.msg);
+      return res.status(400).json({
+        message: 'Bad Request',
+        errors
       });
     }
 

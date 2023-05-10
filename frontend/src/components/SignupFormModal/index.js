@@ -74,7 +74,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.first_name && <p>{errors.first_name}</p>}
         <label>
           Last Name
           <input
@@ -84,7 +84,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.last_name && <p>{errors.last_name}</p>}
         <label>
           Password
           <input
