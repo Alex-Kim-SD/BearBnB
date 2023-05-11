@@ -7,7 +7,7 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
-const { check } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const validateSignup = [
@@ -55,7 +55,9 @@ router.post(
         errors
       });
     }
-
+    const existingUserByUsername = await User.findOne({
+      where: { username: username }
+    });
     if (existingUserByUsername) {
       return res.status(500).json({
         message: "User already exists",

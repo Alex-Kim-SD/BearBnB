@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Spot } = require('../../db/models');
-const { User, SpotImage, Review, ReviewImage, Booking } = require('../../db/models'); // Import User and SpotImage models
+const { User, SpotImage, Review, ReviewImage, Booking } = require('../../db/models');
 const { Op } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
@@ -28,66 +28,12 @@ router.get('/', async (req, res, next) => {
         'name', 'description', 'price', 'created_at', 'updated_at', 'avg_rating', 'preview_image'
       ],
     });
-
+console.log('\n',spots,'/n')
     res.status(200).json({ Spots: spots });
   } catch (err) {
     next(err);
   }
 });
-// GET-SPOTS
-// // **********************************************************
-// router.get('/', async (req, res, next) => {
-//   // Extract query parameters
-//   const page = parseInt(req.query.page) || 1;
-//   const size = parseInt(req.query.size) || 20;
-//   const minLat = parseFloat(req.query.minLat) || -90;
-//   const maxLat = parseFloat(req.query.maxLat) || 90;
-//   const minLng = parseFloat(req.query.minLng) || -180;
-//   const maxLng = parseFloat(req.query.maxLng) || 180;
-//   const minPrice = parseFloat(req.query.minPrice) || 0;
-//   const maxPrice = parseFloat(req.query.maxPrice) || Infinity;
-
-//   // Validate the query parameters
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     return res.status(400).json({ message: 'Validation error', errors: errors.mapped() });
-//   }
-
-//   try {
-//     const spots = await Spot.findAndCountAll({
-//       where: {
-//         lat: {
-//           [Op.between]: [minLat, maxLat],
-//         },
-//         lng: {
-//           [Op.between]: [minLng, maxLng],
-//         },
-//         price: {
-//           [Op.between]: [minPrice, maxPrice],
-//         },
-//       },
-//       limit: size,
-//       offset: (page - 1) * size,
-//       attributes: [
-//         'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
-//         'name', 'description', 'price', 'created_at', 'updated_at', 'preview_image', 'avg_rating'
-//       ],
-//     });
-
-//     const totalPages = Math.ceil(spots.count / size);
-
-//     res.json({
-//       Spots: spots.rows,
-//       page,
-//       size,
-//       totalPages,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-// // **********************************************************
-// **********************************************************
 
 // CREATE-SPOT
 // **********************************************************

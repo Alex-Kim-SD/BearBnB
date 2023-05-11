@@ -1,11 +1,11 @@
-// frontend/src/store/index.js
-
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import sessionReducer from "./session"
+import sessionReducer from "./session";
+import spotsReducer from "./spots"; // Import the spots reducer
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  spots: spotsReducer, // Add the spots reducer to the store
 });
 
 let enhancer;
