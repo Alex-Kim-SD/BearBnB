@@ -38,7 +38,7 @@ console.log('\n',spots,'/n')
 // CREATE-SPOT
 // **********************************************************
 router.post('/', requireAuth, spotValidation, async (req, res, next) => {
-  const { owner_id, address, city, state, country, lat, lng, name, description, price } = req.body;
+  const { owner_id, address, city, state, country, lat, lng, name, description, price, preview_image } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -55,7 +55,8 @@ router.post('/', requireAuth, spotValidation, async (req, res, next) => {
       lng,
       name,
       description,
-      price
+      price,
+      preview_image
     });
 
     res.status(201).json(newSpot);

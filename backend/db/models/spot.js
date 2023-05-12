@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.FLOAT,
       created_at: DataTypes.DATE,
       updated_at: DataTypes.DATE,
-      preview_image: DataTypes.INTEGER,
+      preview_image: DataTypes.STRING,
       avg_rating: DataTypes.FLOAT
     },
     {

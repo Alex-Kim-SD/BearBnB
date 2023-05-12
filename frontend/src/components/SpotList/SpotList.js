@@ -1,47 +1,54 @@
-// home/alex5/BearBnB/frontend/src/components/SpotList/SpotList.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllSpots } from "../../store/spots";
+import { fetchAllSpots, deleteSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 import "./SpotList.css";
 
-const SpotList = () => {
+const SpotList = ({ showManageOptions }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
   const spots = useSelector((state) => state.spots.allSpots);
+
   useEffect(() => {
     dispatch(fetchAllSpots());
   }, [dispatch]);
 
-  const handleSpotClick = (spotId) => {
-    history.push(`/spots/${spotId}`);
+  const handleSpotClick = (spotId, e) => {
+    if (e.target.className !== "manage-button") {
+      history.push(`/spots/${spotId}`);
+    }
+  };
+
+  const handleDelete = (spotId) => {
+    dispatch(deleteSpot(spotId));
   };
 
   return (
     <div>
       <h2>Spot List</h2>
-        <div className="spot-list">
-          <ul className="spot-ul">
-            {spots &&
-              Object.values(spots).map((spot) => (
-                <li
-                  key={spot.id}
-                  onClick={() => handleSpotClick(spot.id)}
-                  className="spot-tile"
-                >
-                  <h3>{spot.name}</h3>
-                  <img
-                    src={spot.preview_image}
-                    alt="Preview"
-                  />
-                  {console.log("spot", spot)}
-                  <p>{spot.description}</p>
-                </li>
-              ))}
-          </ul>
-        </div>
+      <div className="spot-list">
+        <ul className="spot-ul">
+          {spots &&
+            Object.values(spots).map((spot) => (
+              <li
+                key={spot.id}
+                onClick={(e) => handleSpotClick(spot.id, e)}
+                className="spot-tile"
+              >
+                <h3>{spot.name}</h3>
+                <img src={spot.preview_image} alt="Preview" />
+                <p>{spot.description}</p>
+                {showManageOptions && (
+                  <div>
+                    <button className="manage-button" onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>
+                    <button className="manage-button" onClick={() => handleDelete(spot.id)}>Delete</button>
+                  </div>
+                )}
+              </li>
+            ))}
+        </ul>
       </div>
+    </div>
   );
 };
 

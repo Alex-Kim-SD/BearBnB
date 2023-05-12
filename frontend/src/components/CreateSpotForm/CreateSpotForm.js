@@ -1,41 +1,57 @@
 import React, { useState } from 'react';
 import { useDispatch, useStore } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { createSpot } from '../../store/spots';
 
 const CreateSpotForm = () => {
+    const history = useHistory();
     const store = useStore();
     const { getState } = store;
 
     const formIsValid = () => {
-        if (
-            formState.country.trim() === '' ||
-            formState.address.trim() === '' ||
-            formState.city.trim() === '' ||
-            formState.state.trim() === '' ||
-            formState.description.trim() === '' ||
-            formState.name.trim() === '' ||
-            formState.price.trim() === '' ||
-            formState.preview_image_url.trim() === '' ||
-            formState.longitude.trim() === '' ||
-            formState.latitude.trim() === ''
-        ) {
-            // console.log(
-            // '\n Form entries:',
-            // '\n Test',formState.country.trim(),
-            // '\n Test',formState.address.trim(),
-            // '\n Test',formState.city.trim(),
-            // '\n Test',formState.state.trim(),
-            // '\n Test',formState.description.trim(),
-            // '\n Test',formState.name.trim(),
-            // '\n Test',formState.price.trim(),
-            // // '\n',formState.preview.trim(),
-            // '\n Test',formState.longitude.trim(),
-            // '\n Test',formState.latitude.trim()
-            // )
+        if (!formState.country?.trim()) {
+            console.log('Invalid entry for country:', formState.country);
+            return false;
+        }
+        if (!formState.address?.trim()) {
+            console.log('Invalid entry for address:', formState.address);
+            return false;
+        }
+        if (!formState.city?.trim()) {
+            console.log('Invalid entry for city:', formState.city);
+            return false;
+        }
+        if (!formState.state?.trim()) {
+            console.log('Invalid entry for state:', formState.state);
+            return false;
+        }
+        if (!formState.description?.trim()) {
+            console.log('Invalid entry for description:', formState.description);
+            return false;
+        }
+        if (!formState.name?.trim()) {
+            console.log('Invalid entry for name:', formState.name);
+            return false;
+        }
+        if (!formState.price?.toString().trim()) {
+            console.log('Invalid entry for price:', formState.price);
+            return false;
+        }
+        if (!formState.preview_image_url?.trim()) {
+            console.log('Invalid entry for preview_image_url:', formState.preview_image_url);
+            return false;
+        }
+        if (!formState.longitude?.trim()) {
+            console.log('Invalid entry for longitude:', formState.longitude);
+            return false;
+        }
+        if (!formState.latitude?.trim()) {
+            console.log('Invalid entry for latitude:', formState.latitude);
             return false;
         }
         return true;
     };
+
 
     const dispatch = useDispatch();
     const [formState, setFormState] = useState({
@@ -76,11 +92,15 @@ const CreateSpotForm = () => {
             preview_image: formState.preview_image_url,
             image_urls: formState.image_urls
         };
-        // console.log('\n','newSpot', newSpot,'\n')
-        // console.log('\n','isValid?', formIsValid(),'\n')
+        console.log('\n','newSpot', newSpot,'\n')
+        console.log('\n','isValid?', formIsValid(),'\n')
         if(formIsValid()){
-        // console.log('\n','Form is Valid', newSpot,'\n')
-            dispatch(createSpot(newSpot));
+                console.log('\n','Form is Valid', newSpot,'\n')
+                dispatch(createSpot(newSpot))
+                .then((newSpot) => {
+                    // Navigate to new spot's detail page
+                    history.push(`/spots/${newSpot.id}`);
+                });
         }
         else{
             // Handle invalid form

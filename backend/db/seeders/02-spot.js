@@ -16,7 +16,7 @@ module.exports = {
         price: 10.0,
         created_at: new Date(),
         updated_at: new Date(),
-        preview_image: 1,
+        preview_image: 'https://www.shutterstock.com/image-vector/illustration-simple-house-isolated-on-600w-1937900650.jpg',
         avg_rating: 4.5,
       },
       {
@@ -32,7 +32,7 @@ module.exports = {
         price: 15.0,
         created_at: new Date(),
         updated_at: new Date(),
-        preview_image: 3,
+        preview_image: 'https://www.shutterstock.com/image-vector/illustration-simple-house-isolated-on-600w-1937900650.jpg',
         avg_rating: 4.0,
       },
     ]);

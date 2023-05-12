@@ -52,7 +52,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       preview_image: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       avg_rating: {
         type: Sequelize.FLOAT
