@@ -1,3 +1,4 @@
+// src/Components/SpotDetailPage
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +34,7 @@ const SpotDetailPage = () => {
 
         <div>
           {spotImages.slice(1, 5).map((image) => (
-            <img key={image.id} src={image.url} alt="Small" />
+            <img key={image.url} src={image.url} alt="Small" />
           ))}
         </div>
       </div>

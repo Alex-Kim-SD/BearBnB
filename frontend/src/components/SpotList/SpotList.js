@@ -21,27 +21,27 @@ const SpotList = () => {
   return (
     <div>
       <h2>Spot List</h2>
-    <div className="spot-list">
-      <ul>
-        {spots &&
-          Object.values(spots).map((spot) => (
-            <li
-              key={spot.id}
-              onClick={() => handleSpotClick(spot.id)}
-              className="spot-tile"
-            >
-              <h3>{spot.name}</h3>
-              <img
-                src={"https://www.houseplans.net/uploads/styles/50-768.jpg"}
-                alt="Preview"
-              />
-              {console.log("spot", spot)}
-              <p>{spot.description}</p>
-            </li>
-          ))}
-      </ul>
-    </div>
-    </div>
+        <div className="spot-list">
+          <ul className="spot-ul">
+            {spots &&
+              Object.values(spots).map((spot) => (
+                <li
+                  key={spot.id}
+                  onClick={() => handleSpotClick(spot.id)}
+                  className="spot-tile"
+                >
+                  <h3>{spot.name}</h3>
+                  <img
+                    src={spot.preview_image}
+                    alt="Preview"
+                  />
+                  {console.log("spot", spot)}
+                  <p>{spot.description}</p>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </div>
   );
 };
 
