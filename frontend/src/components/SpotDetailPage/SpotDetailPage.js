@@ -13,13 +13,13 @@ const SpotDetailPage = () => {
   }, [dispatch, id]);
 
   const spot = useSelector((state) => state.spots.singleSpot[id]);
-
+  // console.log('\n','SPOTDETAILPAGE SPOT', spot,'\n')
   if (!spot) {
     return <div>Loading...</div>;
   }
 
   const { name, city, state, country, owner, description, spotImages, price } = spot;
-  console.log('\n','SPOT IMAGES', spotImages,'\n')
+  // console.log('\n','SPOTDETAILPAGE SPOTIMAGES', spotImages,'\n')
   const handleReserveClick = () => {
     alert("Feature coming soon");
   };

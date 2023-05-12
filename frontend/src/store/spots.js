@@ -41,6 +41,7 @@ export const fetchAllSpots = () => async dispatch => {
 };
 
 export const createSpot = (formData) => async (dispatch) => {
+  console.log('\n','CL FormData', formData,'\n')
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: {
@@ -49,12 +50,12 @@ export const createSpot = (formData) => async (dispatch) => {
     body: JSON.stringify(formData),
   });
 
-  console.log('\n','CL Is response ok?', response.ok,'\n')
+  // console.log('\n','CL Is response ok?', response.ok,'\n')
   if (response.ok) {
     const spot = await response.json();
 
     const PreviewSpotImage = {
-      url: formData.preview_image_url,
+      url: formData.preview_image,
       preview: true
     }
 

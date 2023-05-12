@@ -60,7 +60,7 @@ const CreateSpotForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const ownerId = getState().session.user.id;
-        console.log('\n','OWNERID', ownerId,'\n') // working
+        // console.log('\n','OWNERID', ownerId,'\n') // working
         // new spot object with the form data, including the owner ID
         const newSpot = {
             owner_id: ownerId,
@@ -76,10 +76,10 @@ const CreateSpotForm = () => {
             preview_image: formState.preview_image_url,
             image_urls: formState.image_urls
         };
-        console.log('\n','newSpot', newSpot,'\n')
-        console.log('\n','isValid?', formIsValid(),'\n')
+        // console.log('\n','newSpot', newSpot,'\n')
+        // console.log('\n','isValid?', formIsValid(),'\n')
         if(formIsValid()){
-        console.log('\n','Form is Valid', newSpot,'\n')
+        // console.log('\n','Form is Valid', newSpot,'\n')
             dispatch(createSpot(newSpot));
         }
         else{
