@@ -68,16 +68,27 @@ const CreateSpotForm = () => {
         image_urls: ['', '', '', '', '']
     });
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event) => { // firing on all field changes
+        console.log('\n','CREATE SPOT FORM | event.target', event.target,'\n')
         const { name, value } = event.target;
-        setFormState({ ...formState, [name]: value });
+
+        if (name.startsWith('image_url_')) {
+            const index = parseInt(name.split('_')[2], 10);
+
+        console.log('\n','CREATE SPOT FORM | index', index,'\n')
+            const newImageUrls = [...formState.image_urls];
+            newImageUrls[index] = value;
+            setFormState({ ...formState, image_urls: newImageUrls });
+        } else {
+            setFormState({ ...formState, [name]: value });
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const ownerId = getState().session.user.id;
         // console.log('\n','OWNERID', ownerId,'\n') // working
-        // new spot object with the form data, including the owner ID
+
         const newSpot = {
             owner_id: ownerId,
             address: formState.address,
@@ -92,10 +103,11 @@ const CreateSpotForm = () => {
             preview_image: formState.preview_image_url,
             image_urls: formState.image_urls
         };
-        console.log('\n','newSpot', newSpot,'\n')
-        console.log('\n','isValid?', formIsValid(),'\n')
+
+        console.log('\n','CREATE SPOT FORM | newSpot', newSpot,'\n')
+        console.log('\n','CREATE SPOT FORM | isValid?', formIsValid(),'\n')
         if(formIsValid()){
-                console.log('\n','Form is Valid', newSpot,'\n')
+                console.log('\n','CREATE SPOT FORM | Form is Valid', newSpot,'\n')
                 dispatch(createSpot(newSpot))
                 .then((newSpot) => {
                     // Navigate to new spot's detail page
