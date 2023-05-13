@@ -5,6 +5,7 @@ const GET_SINGLE_SPOT = "spots/getSingleSpot";
 const CREATE_SPOT = 'spotForm/CREATE_SPOT';
 const DELETE_SPOT = 'spots/DELETE_SPOT';
 const UPDATE_SPOT = 'spots/UPDATE_SPOT';
+const GET_SPOT_REVIEWS = "spots/getSpotReviews";
 
 // ********************************************************************************************
 const initialState = {
@@ -36,6 +37,15 @@ const updateSpotAction = (spot) => ({
   type: UPDATE_SPOT,
   spot,
 })
+
+const getSpotReviews = (spotId, reviews) => ({
+  type: GET_SPOT_REVIEWS,
+  payload: {
+    spotId,
+    reviews,
+  },
+});
+
 // ********************************************************************************************
 export const fetchSpotDetail = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}`);
@@ -55,8 +65,20 @@ export const fetchAllSpots = () => async dispatch => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log('frontend/src/store/spots.js Data received from API:', data)
+    console.log('frontend/src/store/spots.js Data received from API FETCH ALL SPOTS:', data)
     dispatch(setAllSpots(data.Spots));
+  }
+};
+
+export const fetchSpotReviews = (spotId) => async (dispatch) => {
+  console.log('frontend/src/store/spots.js API FETCH SPOT REVIEWS:', spotId)
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+  if (response.ok) {
+    const data = await response.json();
+    console.log('frontend/src/store/spots.js Data received from API FETCH SPOT REVIEWS:', data)
+    dispatch(getSpotReviews(spotId, data.Reviews));
+  } else {
+    throw new Error("Failed to fetch reviews for spot");
   }
 };
 
@@ -169,6 +191,17 @@ const spotsReducer = (state = initialState, action) => {
         allSpots: {
           ...state.allSpots,
           [action.spot.id]: action.spot,
+        },
+      };
+      case GET_SPOT_REVIEWS:
+      return {
+        ...state,
+        singleSpot: {
+          ...state.singleSpot,
+          [action.payload.spotId]: {
+            ...state.singleSpot[action.payload.spotId],
+            reviews: action.payload.reviews,
+          },
         },
       };
     default:

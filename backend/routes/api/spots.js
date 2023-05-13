@@ -273,10 +273,12 @@ router.get('/:spotId/reviews', async (req, res, next) => {
           attributes: ['id', 'url'],
         },
       ],
+      order: [['created_at', 'DESC']],
     });
 
     if (!spotReviews || spotReviews.length === 0) {
-      return res.status(404).json({ message: "Couldn't find any reviews for the specified spot" });
+      console.log('backend/routes/spots.js spotReviewsDNE', spotReviews)
+      return res.status(201).json({ message: "Couldn't find any reviews for the specified spot" }); // maybe adjust status code
     }
 
     res.status(200).json({ Reviews: spotReviews });
