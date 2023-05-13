@@ -65,7 +65,7 @@ const CreateSpotForm = () => {
         latitude: "",
         longitude: "",
         preview_image_url: '',
-        image_urls: ['', '', '', '', '']
+        image_urls: ['', '', '', '']
     });
 
     const handleInputChange = (event) => { // firing on all field changes
@@ -75,7 +75,7 @@ const CreateSpotForm = () => {
         if (name.startsWith('image_url_')) {
             const index = parseInt(name.split('_')[2], 10);
 
-        console.log('\n','CREATE SPOT FORM | index', index,'\n')
+        console.log('\n','CREATE SPOT FORM | Imague_Url_index', index,'\n')
             const newImageUrls = [...formState.image_urls];
             newImageUrls[index] = value;
             setFormState({ ...formState, image_urls: newImageUrls });
@@ -211,9 +211,20 @@ const CreateSpotForm = () => {
                     />
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="image_url_1">Image URL</label>
+                    <label htmlFor="image_url_0">Image URL</label>
                     <input
                         type="text"
+                        id="image_url_0"
+                        name="image_url_0"
+                        value={formState.image_url_0}
+                        onChange={handleInputChange}
+                        placeholder="Image URL"
+                    />
+                </div>
+                <div className="form-field-input">
+                    <label htmlFor="image_url_1">Image URL</label>
+                    <input
+                        type="url"
                         id="image_url_1"
                         name="image_url_1"
                         value={formState.image_url_1}
@@ -239,17 +250,6 @@ const CreateSpotForm = () => {
                         id="image_url_3"
                         name="image_url_3"
                         value={formState.image_url_3}
-                        onChange={handleInputChange}
-                        placeholder="Image URL"
-                    />
-                </div>
-                <div className="form-field-input">
-                    <label htmlFor="image_url_4">Image URL</label>
-                    <input
-                        type="url"
-                        id="image_url_4"
-                        name="image_url_4"
-                        value={formState.image_url_4}
                         onChange={handleInputChange}
                         placeholder="Image URL"
                     />

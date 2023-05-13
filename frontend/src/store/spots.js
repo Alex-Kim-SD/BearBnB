@@ -90,6 +90,25 @@ export const createSpot = (formData) => async (dispatch) => {
         throw new Error('Failed to create SpotImage');
     }
 
+    for (let i = 0; i < formData.image_urls.length; i++) {
+      if(formData.image_urls[i] !== ''){
+        console.log('\n','CL CREATE SPOT ACTION formData.ImageURL','\n')
+      const imageUrl = {
+        url: formData.image_urls[i],
+        preview: false
+      }
+      const imageURLResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(imageUrl),
+      })
+      console.log('\n','CL SPOT STORE ACTION Image_url', imageURLResponse,'\n')
+    }
+    };
+
+
     dispatch(createSpotAction(spot));
     return spot;
   }
