@@ -33,9 +33,9 @@ const SpotDetailPage = () => {
         <img src={spotImages[0].url} alt="Large" />
 
         <div>
-          {console.log('\n', spotImages.slice(1, 5), '\n')}
+          {console.log('\n', 'SPOT DETAIL PAGE SPOTIMAGES SLICE', spotImages.slice(1, 5), '\n')}
           {spotImages.slice(1, 5).map((image) => (
-            <img key={image.url} src={image.url} alt="Small" />
+            <img key={image.id} src={image.url} alt="Small" /> 
           ))}
         </div>
       </div>

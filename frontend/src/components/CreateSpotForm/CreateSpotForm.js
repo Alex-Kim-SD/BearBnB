@@ -69,7 +69,7 @@ const CreateSpotForm = () => {
     });
 
     const handleInputChange = (event) => { // firing on all field changes
-        console.log('\n','CREATE SPOT FORM | event.target', event.target,'\n')
+        console.log('\n','CREATE SPOT FORM | InputChange Event.Target event.target', event.target,'\n')
         const { name, value } = event.target;
 
         if (name.startsWith('image_url_')) {
@@ -115,7 +115,7 @@ const CreateSpotForm = () => {
                 });
         }
         else{
-            // Handle invalid form
+            console.log('\n','CREATE SPOT FORM | INVALID FORM', 'formIsValid() = False', newSpot,'\n')
         }
     };
 
