@@ -172,6 +172,7 @@ router.put('/:id', requireAuth, async (req, res, next) => {
     lat,
     lng,
     name,
+    avg_rating,
     description,
     price
   } = req.body;
@@ -206,6 +207,7 @@ router.put('/:id', requireAuth, async (req, res, next) => {
     if (name) spot.name = name;
     if (description) spot.description = description;
     if (price) spot.price = price;
+    if (avg_rating) spot.avg_rating = avg_rating
 
     // Save the updated spot to the database
     await spot.save();

@@ -26,7 +26,7 @@
   width: calc(25% - 20px);
   margin: 10px;
   box-sizing: border-box;
-  border: 1px solid black; /* Add this line to apply a border */
+  border: 1px solid black;
 }
 
 .spot-tile:hover {
@@ -36,7 +36,7 @@
 
 .spot-tile img {
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .below_image {
