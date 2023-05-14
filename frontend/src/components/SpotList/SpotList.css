@@ -1,31 +1,4 @@
 /* TODO Add site wide styles */
-body {
-  font-family: Arial, sans-serif;
-}
-
-form {
-  width: 50%;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  color: #FF5A5F;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-p {
-  color: #767676;
-  margin-bottom: 20px;
-}
-
-.spot_description {
-  color: #767676;
-  font-size: large;
-}
-
 .city_state {
   color: #767676;
   font-size: large;
@@ -53,7 +26,13 @@ p {
   width: calc(25% - 20px);
   margin: 10px;
   box-sizing: border-box;
+  border: 1px solid black; /* Add this line to apply a border */
 }
+
+.spot-tile:hover {
+  cursor: pointer;
+}
+
 
 .spot-tile img {
   width: 100%;
@@ -67,39 +46,15 @@ p {
   width: 100%;
 }
 
-.city_state, .rating {
-  font-size: 0.8em;
+.city_state {
+  font-size: 1em;
   color: #555;
 }
-
+.rating {
+  font-size: 1.2em;
+  color: #555;
+}
 .price {
   font-size: 1.2em;
   font-weight: bold;
-}
-
-.manage-options {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.manage-button {
-  background-color: #FF5A5F;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.manage-button:disabled {
-  background-color: #FFCECE;
-  cursor: not-allowed;
-}
-
-.manage-button:hover:not(:disabled) {
-  background-color: #FF3B40;
 }

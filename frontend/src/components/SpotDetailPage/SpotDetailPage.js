@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchSpotDetail, fetchSpotReviews } from '../../store/spots';
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import { useModal } from "../../context/Modal";
+import "./SpotDetailPage.css"
 
 const SpotDetailPage = () => {
   const { id } = useParams();
@@ -13,16 +14,23 @@ const SpotDetailPage = () => {
   const currentUser = useSelector((state) => state.session.user)
   // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
   const spot = useSelector((state) => state.spots.singleSpot[id]);
-
-   useEffect(() => {
+  // console.log('\n','SPOTDETAILPAGE LOG | SPOT', spot, '\n')
+  useEffect(() => {
     dispatch(fetchSpotDetail(id));
     dispatch(fetchSpotReviews(id));
     // if (currentUser) {
     //   dispatch(fetchUserReviews(id)); // fetch the user's reviews
     // }
   }, [dispatch, id, currentUser]);
-    // console.log('\n','SPOTDETAILPAGE LOG | SPOT', spot, '\n')
 
+  const calculateAverageStars = () => {
+    if (reviews && reviews.length > 0) {
+      const totalStars = reviews.reduce((acc, review) => acc + parseInt(review.stars), 0);
+      const average = totalStars / reviews.length;
+      return average.toFixed(1); // Round the average to 1 decimal place
+    }
+    return null;
+  };
 
 
 
@@ -31,11 +39,11 @@ const SpotDetailPage = () => {
   }
   const { name, city, state, country, owner, description, spotImages, price } = spot;
   const reviews = spot?.reviews
-  console.log('\n','SPOTDETAILPAGE LOG | reviews',reviews,'\n')
-
+  console.log('\n', 'SPOTDETAILPAGE LOG | reviews', reviews, '\n')
+  const avgReview = calculateAverageStars()
+  const reviewCount = reviews ? reviews.length : 0
   const hasReviewed = reviews?.some((review) => review?.user_id === currentUser?.id) || false
-  console.log('\n','SPOTDETAILPAGE LOG | hasReviewed',hasReviewed,'\n')
-
+  // console.log('\n','SPOTDETAILPAGE LOG | hasReviewed',hasReviewed,'\n')
 
   // console.log('\n','SPOTDETAILPAGE LOG | CurrentUser:',currentUser,'Owner',owner,'\n')
   const isOwner = currentUser?.id === owner?.id;
@@ -50,7 +58,7 @@ const SpotDetailPage = () => {
       <h1>{name}</h1>
       <p>Location: {city}, {state}, {country}</p>
       <div className="spot-images">
-        {spotImages && spotImages.length > 0 ? (
+        {spotImages?.length > 0 ? (
           <>
             <img src={spotImages[0].url} alt="Spot" className="main-image" />
             <div className="thumbnail-images">
@@ -63,28 +71,53 @@ const SpotDetailPage = () => {
           <img src="/frontend/PhotoFolder/defaulthouse.jpg" alt="Default Spot" className="main-image" />
         )}
       </div>
-      {/* ************************REVIEW FORM HERE************************ */}
-      <div>
-  {currentUser && !(hasReviewed || isOwner) && (
-    <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>
-      Post Your Review
-    </button>
-  )}
-</div>
 
-
-      {/* ************************REVIEW FORM HERE************************ */}
       {/* <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>Post Your Review</button> */}
       <div className="spot-info">
-      {/* {console.log('\n',"SPOTDETAILPAGE, OWNER:", owner,'\n',)}; */}
-
-        <div className="spot-owner">Hosted by {owner?.first_name} {owner?.last_name}</div>
-        <p>{description}</p>
-
-        <div className="spot-reservation">
-          <h2>{price} per night</h2>
-          <button onClick={handleReserveClick}>Reserve</button>
+        <div className="spot-hostdesc">
+          <div className="spot-owner">Hosted by {owner?.first_name} {owner?.last_name}</div>
+          <p>{description}</p>
         </div>
+
+        <div className="spot-callout">
+          <div className="calloutpricereview">
+            <h2>${price} night</h2>
+            {avgReview ? (<><span role="img" aria-label="star">🌟</span> {avgReview}</>) : ("New")}
+          </div>
+          <div className="calloutreservebutton">
+            <button onClick={handleReserveClick}>Reserve</button>
+          </div>
+        </div>
+      </div>
+      {/* ************************REVIEW FORM HERE************************ */}
+
+      {/* ************************REVIEW FORM HERE************************ */}
+      <div className="review-section">
+        <div className="review-header">
+          {avgReview ? (<> <span role="img" aria-label="star">🌟</span> {avgReview} </>) : ("New")}
+          {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
+        </div>
+        <div className="ReviewFormModal">
+        {currentUser && !(hasReviewed || isOwner) && (
+          <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>
+            Post Your Review
+          </button>
+        )}
+      </div>
+        {reviews?.length > 0 ? (
+          <div className="review-list">
+            {reviews.map((review) => (
+              <div key={review.id} className="review-item">
+                <p className="review-first-name">{review.user.first_name}</p>
+                <p className="review-date">{new Date(review.created_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
+                <p className="review-comment">{review.review}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          currentUser && !isOwner && <p className="no-reviews">Be the first to post a review!</p>
+        )}
+
       </div>
     </div>
   );

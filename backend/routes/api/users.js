@@ -49,7 +49,7 @@ router.post(
       const errors = {};
       validationErrors
         .array()
-        .forEach(error => errors[error] = error.msg);
+        .forEach(error => errors[error.param] = error.msg);
       return res.status(400).json({
         message: 'Bad Request',
         errors

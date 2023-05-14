@@ -9,7 +9,7 @@ const ManageSpots = () => {
   const history = useHistory();
   const user = useSelector((state) => state.session.user);
 console.log('\n','ManageSpotsPage.js | User', user,'\n')
-  const spots = useSelector((state) => Object.values(state.spots.allSpots).filter((spot) => spot.owner_id === user.id));
+  const spots = useSelector((state) => Object.values(state.spots.allSpots).filter((spot) => spot.owner_id === user?.id));
   console.log('\n','SPOTS', spots,'\n')
    useEffect(() => {
     dispatch(fetchAllSpots());
@@ -29,7 +29,7 @@ console.log('\n','ManageSpotsPage.js | User', user,'\n')
 
   return (
     <div>
-      <h2>Manage Spots</h2>
+      {/* <h2>Manage Spots</h2> */}
       {spots.length > 0 ? (
         <div className="spot-list">
           {spots.map((spot) => (
@@ -37,7 +37,7 @@ console.log('\n','ManageSpotsPage.js | User', user,'\n')
               <div onClick={() => handleSpotClick(spot.id)}>
                 <h3>{spot.name}</h3>
                 <img src={spot.preview_image} alt="Preview" />
-                <p>{spot.description}</p>
+                {/* <p>{spot.description}</p> */}
               </div>
               <button onClick={() => handleEditSpot(spot.id)}>Update</button>
               <button onClick={() => handleDeleteSpot(spot.id)}>Delete</button>

@@ -28,7 +28,6 @@ router.get('/', async (req, res, next) => {
         'name', 'description', 'price', 'created_at', 'updated_at', 'avg_rating', 'preview_image'
       ],
     });
-console.log('\n',spots,'/n')
     res.status(200).json({ Spots: spots });
   } catch (err) {
     next(err);
@@ -101,7 +100,7 @@ router.get('/:id', async (req, res, next) => {
       },
       attributes: [
         'id', 'owner_id', 'address', 'city', 'state', 'country', 'lat', 'lng',
-        'name', 'description', 'price', 'created_at', 'updated_at'
+        'name', 'description', 'price', 'created_at', 'updated_at', 'preview_image', 'avg_rating'
       ],
       include: [
         {

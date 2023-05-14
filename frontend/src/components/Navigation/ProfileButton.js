@@ -35,6 +35,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    setShowMenu(false)
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -50,31 +51,41 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.first_name} {user.last_name}</li>
-            <li>{user.email}</li>
-            <li><button onClick={navigateToManageSpots}>Manage Spots</button></li>
-            <li><button onClick={logout}>Log Out</button></li>
-          </>
-        ) : (
-          <>
-            <li>
-              <OpenModalButton
-                buttonText="Log In"
-                modalComponent={<LoginFormModal />}
-              />
-            </li>
-            <li>
-              <OpenModalButton
-                buttonText="Sign Up"
-                modalComponent={<SignupFormModal />}
-              />
-            </li>
-          </>
-        )}
-      </ul>
+  {user ? (
+    <>
+      <div className="dropdown-item">
+        <li>Hello, {user.first_name}</li>
+        <li>{user.username}</li>
+        <li>{user.email}</li>
+      </div>
+      <div className="dropdown-item">
+        <li><button onClick={navigateToManageSpots}>Manage Spots</button></li>
+      </div>
+      <div className="dropdown-item">
+        <li><button onClick={logout}>Log Out</button></li>
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="dropdown-item">
+        <li>
+          <OpenModalButton
+            buttonText="Log In"
+            modalComponent={<LoginFormModal />}
+          />
+        </li>
+      </div>
+      <div className="dropdown-item">
+        <li>
+          <OpenModalButton
+            buttonText="Sign Up"
+            modalComponent={<SignupFormModal />}
+          />
+        </li>
+      </div>
+    </>
+  )}
+</ul>
     </>
   );
 }

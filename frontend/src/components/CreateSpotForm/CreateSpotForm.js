@@ -7,51 +7,45 @@ const CreateSpotForm = () => {
     const history = useHistory();
     const store = useStore();
     const { getState } = store;
+    const [errorMessages, setErrorMessages] = useState({});
 
     const formIsValid = () => {
+        const errors = {};
+
         if (!formState.country?.trim()) {
-            console.log('Invalid entry for country:', formState.country);
-            return false;
+            errors.country = 'Country is required';
         }
         if (!formState.address?.trim()) {
-            console.log('Invalid entry for address:', formState.address);
-            return false;
+            errors.address = 'Address is required';
         }
         if (!formState.city?.trim()) {
-            console.log('Invalid entry for city:', formState.city);
-            return false;
+            errors.city = 'City is required';
         }
         if (!formState.state?.trim()) {
-            console.log('Invalid entry for state:', formState.state);
-            return false;
+            errors.state = 'State is required';
         }
-        if (!formState.description?.trim()) {
-            console.log('Invalid entry for description:', formState.description);
-            return false;
+        if (!formState.description?.trim() || formState.description.length < 30) {
+            errors.description = 'Description needs 30 or more characters';
         }
         if (!formState.name?.trim()) {
-            console.log('Invalid entry for name:', formState.name);
-            return false;
+            errors.name = 'Name is required';
         }
         if (!formState.price?.toString().trim()) {
-            console.log('Invalid entry for price:', formState.price);
-            return false;
+            errors.price = 'Price per night is required';
         }
         if (!formState.preview_image_url?.trim()) {
-            console.log('Invalid entry for preview_image_url:', formState.preview_image_url);
-            return false;
+            errors.preview_image_url = 'Preview Image URL is required';
         }
         if (!formState.longitude?.trim()) {
-            console.log('Invalid entry for longitude:', formState.longitude);
-            return false;
+            errors.longitude = 'Longitude is required';
         }
         if (!formState.latitude?.trim()) {
-            console.log('Invalid entry for latitude:', formState.latitude);
-            return false;
+            errors.latitude = 'Latitude is required';
         }
-        return true;
-    };
 
+        setErrorMessages(errors); // set the error messages
+        return Object.keys(errors).length === 0; // if no errors, form is valid
+    };
 
     const dispatch = useDispatch();
     const [formState, setFormState] = useState({
@@ -68,26 +62,24 @@ const CreateSpotForm = () => {
         image_urls: ['', '', '', '']
     });
 
-    const handleInputChange = (event) => { // firing on all field changes
-        console.log('\n','CREATE SPOT FORM | InputChange Event.Target event.target', event.target,'\n')
+    const handleInputChange = (event) => {
         const { name, value } = event.target;
 
-        if (name.startsWith('image_url_')) {
+        if (name.startsWith('image_url_')) { // flattening image_urls so different seperated html fields will be placed in array
             const index = parseInt(name.split('_')[2], 10);
-
-        console.log('\n','CREATE SPOT FORM | Imague_Url_index', index,'\n')
             const newImageUrls = [...formState.image_urls];
             newImageUrls[index] = value;
             setFormState({ ...formState, image_urls: newImageUrls });
         } else {
             setFormState({ ...formState, [name]: value });
         }
+        formIsValid(); // validate the form each time an input changes
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const ownerId = getState().session.user.id;
-        // console.log('\n','OWNERID', ownerId,'\n') // working
 
         const newSpot = {
             owner_id: ownerId,
@@ -104,50 +96,50 @@ const CreateSpotForm = () => {
             image_urls: formState.image_urls
         };
 
-        console.log('\n','CREATE SPOT FORM | newSpot', newSpot,'\n')
-        console.log('\n','CREATE SPOT FORM | isValid?', formIsValid(),'\n')
-        if(formIsValid()){
-                console.log('\n','CREATE SPOT FORM | Form is Valid', newSpot,'\n')
-                dispatch(createSpot(newSpot))
+        if (formIsValid()) {
+            dispatch(createSpot(newSpot))
                 .then((newSpot) => {
-                    // Navigate to new spot's detail page
                     history.push(`/spots/${newSpot.id}`);
                 });
-        }
-        else{
-            console.log('\n','CREATE SPOT FORM | INVALID FORM', 'formIsValid() = False', newSpot,'\n')
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <h2>Create a New Spot</h2>
+            {Object.keys(errorMessages).length > 0 && <div className="form-errors">
+                <h4>There were some errors with your submission</h4>
+                <ul>
+                    {Object.values(errorMessages).map((error) => <li key={error}>{error}</li>)}
+                </ul>
+            </div>}
             <div>
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they booked a reservation.</p>
                 <div>
                     <label htmlFor="country">Country</label>
-                    <input type="text" id="country" name="country" value={formState.country} onChange={handleInputChange} />
+                    <input type="text" id="country" name="country" value={formState.country} onChange={handleInputChange} placeholder="Country" />
                 </div>
                 <div>
                     <label htmlFor="address">Address</label>
-                    <input type="text" id="address" name="address" value={formState.address} onChange={handleInputChange} />
+                    <input type="text" id="address" name="address" value={formState.address} onChange={handleInputChange} placeholder="Address" />
                 </div>
                 <div>
                     <label htmlFor="city">City</label>
-                    <input type="text" id="city" name="city" value={formState.city} onChange={handleInputChange} />
+                    <input type="text" id="city" name="city" value={formState.city} onChange={handleInputChange} placeholder="City" />
                 </div>
                 <div>
                     <label htmlFor="state">State</label>
-                    <input type="text" id="state" name="state" value={formState.state} onChange={handleInputChange} />
+                    <input type="text" id="state" name="state" value={formState.state} onChange={handleInputChange} placeholder="State" />
                 </div>
                 <div>
                     <label htmlFor="latitude">Latitude</label>
-                    <input type="text" id="latitude" name="latitude" value={formState.latitude} onChange={handleInputChange} />
+                    <input type="text" id="latitude" name="latitude" value={formState.latitude} onChange={handleInputChange} placeholder="Latitude" />
 
                     <label htmlFor="longitude">Longitude</label>
-                    <input type="text" id="longitude" name="longitude" value={formState.longitude} onChange={handleInputChange} />
+                    <input type="text" id="longitude" name="longitude" value={formState.longitude} onChange={handleInputChange} placeholder="Longitude" />
                 </div>
+
 
             </div>
             <div>
@@ -155,21 +147,19 @@ const CreateSpotForm = () => {
                 <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
                 <div>
                     <label htmlFor="description">Description</label>
-                    <textarea id="description" name="description" value={formState.description} onChange={handleInputChange} />
+                    <textarea id="description" name="description" placeholder='Please write at least 30 characters' value={formState.description} onChange={handleInputChange} />
                 </div>
             </div>
             <div>
                 <h3>Create a title for your spot</h3>
                 <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                 <div>
-                    <label htmlFor="name">Name of your spot</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={formState.name}
                         onChange={handleInputChange}
-                        required
                         placeholder="Name of your spot"
                     />
                 </div>
@@ -181,14 +171,12 @@ const CreateSpotForm = () => {
                     <span>Competitive pricing can help your listing stand out and rank higher in search results.</span>
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="price">Price per night (USD)</label>
                     <input
                         type="number"
                         id="price"
                         name="price"
                         value={formState.price}
                         onChange={handleInputChange}
-                        required
                         placeholder="Price per night (USD)"
                     />
                 </div>
@@ -200,7 +188,6 @@ const CreateSpotForm = () => {
                     <span>Submit a link to at least one photo to publish your spot.</span>
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="preview_image_url">Preview Image URL *</label>
                     <input
                         type="text"
                         id="preview_image_url"
@@ -211,7 +198,6 @@ const CreateSpotForm = () => {
                     />
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="image_url_0">Image URL</label>
                     <input
                         type="text"
                         id="image_url_0"
@@ -222,7 +208,6 @@ const CreateSpotForm = () => {
                     />
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="image_url_1">Image URL</label>
                     <input
                         type="url"
                         id="image_url_1"
@@ -233,7 +218,6 @@ const CreateSpotForm = () => {
                     />
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="image_url_2">Image URL</label>
                     <input
                         type="url"
                         id="image_url_2"
@@ -244,7 +228,6 @@ const CreateSpotForm = () => {
                     />
                 </div>
                 <div className="form-field-input">
-                    <label htmlFor="image_url_3">Image URL</label>
                     <input
                         type="url"
                         id="image_url_3"
@@ -257,9 +240,7 @@ const CreateSpotForm = () => {
             </div>
 
             <div className="form-submit">
-                <button type="submit" disabled={!formIsValid}>
-                    Create Spot
-                </button>
+                <button type="submit" disabled={Object.keys(errorMessages).length > 0}>Create Spot</button>
             </div>
         </form>
     );

@@ -1,0 +1,50 @@
+.spot-info {
+    display: flex;
+    justify-content: space-around;
+}
+
+.spot-hostdesc{
+    width: 50%;
+}
+
+.spot-callout {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    width: 30%;
+    border-radius: 1em;
+    align-self: center;
+    padding: 1em;
+}
+
+.spot-images {
+    display: flex;
+    border: 1px solid #000;
+  }
+
+  .main-image {
+    border: 1px solid #000;
+    width: 50%;
+  }
+
+  .thumbnail-images {
+    border: 1px solid #000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 50%;
+  }
+
+  .thumbnail-images img {
+    border: 1px solid #000;
+    width: 49%;
+    height: 49%;
+  }
+.review-section{
+    border: 1px solid #000;
+}
+  .review-item {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+  }

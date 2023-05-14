@@ -14,34 +14,44 @@ function LoginFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (credential.length < 4 || password.length < 6) {
+      setErrors({ credential: "The provided credentials were invalid" });
+      return;
+    }
+
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
+      .catch(() => {
+        setErrors({ credential: "The provided credentials were invalid" });
       });
   };
+
+  const handleDemoLogin = () => {
+    dispatch(sessionActions.login({ credential: 'ExampleUsername', password: 'demopass' }))
+      .then(closeModal)
+      .catch(() => {
+        setErrors({ credential: "The provided credentials were invalid" });
+      });
+  }
 
   return (
     <>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Username or Email
           <input
             type="text"
+            placeholder="Username or Email"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
         <label>
-          Password
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -50,7 +60,8 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <button onClick={handleDemoLogin}>Log in as Demo User</button>
       </form>
     </>
   );

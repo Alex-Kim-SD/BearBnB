@@ -1,3 +1,46 @@
 .hidden {
-    display: none;
-  }
+  display: none;
+}
+
+/* ProfileButton.css */
+
+.profile-dropdown {
+  text-align: center;
+  position: absolute;
+  right: 50px;
+  /* Adjust this as needed */
+  top: 40px;
+  /* Adjust this as needed */
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  /* This will give the container rounded corners */
+  padding-inline-start: 0
+}
+
+.dropdown-item {
+  border-bottom: 1px solid #ccc;
+  /* This will put a line below each item */
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+  /* Remove the bottom border from the last item */
+}
+
+.profile-dropdown li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.profile-dropdown li:hover {
+  background-color: #f1f1f1;
+}
+
+.profile-dropdown.show {
+  display: block;
+}
