@@ -242,7 +242,7 @@ const CreateSpotForm = () => {
             </div>
 
             <div className="form-submit">
-        {/* {console.log('\n','Create Spot Form Error Messages',errorMessages)} */}
+                {/* {console.log('\n','Create Spot Form Error Messages',errorMessages)} */}
                 <button type="submit">Create Spot</button>
             </div>
         </form>

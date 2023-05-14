@@ -8,6 +8,8 @@ const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 const GET_SPOT_REVIEWS = "spots/getSpotReviews";
 const GET_USER_REVIEWS = "reviews/getUserReviews";
 const CREATE_REVIEW = "spots/createReview";
+const DELETE_REVIEW = "spots/deleteReview";
+
 
 // ********************************************************************************************
 const initialState = {
@@ -60,6 +62,12 @@ const createReviewAction = (review) => ({
   type: CREATE_REVIEW,
   review,
 });
+
+const deleteReviewAction = (reviewId, spotId) => ({
+  type: DELETE_REVIEW,
+  payload: { reviewId, spotId },
+});
+
 
 // ********************************************************************************************
 export const fetchSpotDetail = (id) => async (dispatch) => {
@@ -207,6 +215,21 @@ export const updateSpot = (spotId, spotData) => async (dispatch) => {
   }
 };
 
+export const deleteReview = (reviewId, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    dispatch(deleteReviewAction(reviewId, spotId));
+  } else {
+    throw new Error('Failed to delete review');
+  }
+};
+
+
+
+
 // ********************************************************************************************
 
 const spotsReducer = (state = initialState, action) => {
@@ -264,6 +287,19 @@ const spotsReducer = (state = initialState, action) => {
           },
         },
       };
+      case DELETE_REVIEW:
+  return {
+    ...state,
+    singleSpot: {
+      ...state.singleSpot,
+      [action.payload.spotId]: {
+        ...state.singleSpot[action.payload.spotId],
+        reviews: state.singleSpot[action.payload.spotId]?.reviews.filter(
+          (review) => review.id !== action.payload.reviewId
+        ),
+      },
+    },
+  };
     default:
       return state;
   }

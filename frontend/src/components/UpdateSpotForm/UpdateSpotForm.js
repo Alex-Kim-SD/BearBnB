@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useStore, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { updateSpot, fetchSpotDetailReturnSpot} from '../../store/spots';
+import { updateSpot, fetchSpotDetailReturnSpot } from '../../store/spots';
 
 const UpdateSpotForm = () => {
     const history = useHistory();
@@ -26,7 +26,7 @@ const UpdateSpotForm = () => {
 
     useEffect(() => {
         dispatch(fetchSpotDetailReturnSpot(id)).then(spot => {
-            console.log('UPDATESPOTFORM.JS | SPOT',spot)
+            console.log('UPDATESPOTFORM.JS | SPOT', spot)
             setFormState({
                 country: spot.country,
                 address: spot.address,
@@ -60,9 +60,8 @@ const UpdateSpotForm = () => {
             console.log('Invalid entry for state:', formState.state);
             return false;
         }
-        if (!formState.description?.trim()) {
-            console.log('Invalid entry for description:', formState.description);
-            return false;
+        if (!formState.description?.trim() || formState.description.length < 30) {
+            return false
         }
         if (!formState.name?.trim()) {
             console.log('Invalid entry for name:', formState.name);
@@ -72,10 +71,6 @@ const UpdateSpotForm = () => {
             console.log('Invalid entry for price:', formState.price);
             return false;
         }
-        // if (!formState.preview_image_url?.trim()) {
-        //     console.log('Invalid entry for preview_image_url:', formState.preview_image_url);
-        //     return false;
-        // }
         if (!formState.longitude?.toString().trim()) {
             console.log('Invalid entry for longitude:', formState.longitude);
             return false;
@@ -97,65 +92,60 @@ const UpdateSpotForm = () => {
             owner_id: ownerId,
         };
 
-        if(formIsValid()){
+        if (formIsValid()) {
             dispatch(updateSpot(id, updatedSpot))
-            .then(() => {
-                // Navigate to updated spot's detail page
-                history.push(`/spots/${id}`);
-            });
+                .then(() => {
+                    // Navigate to updated spot's detail page
+                    history.push(`/spots/${id}`);
+                });
         }
-        else{
+        else {
             // Handle invalid form
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-        <h2>Update Your Spot</h2>
-        <label>Country
-        <input type="text" value={formState.country} onChange={(e) => setFormState({...formState, country: e.target.value})} />
-        </label>
-        <label>Address
-        <input type="text" value={formState.address} onChange={(e) => setFormState({...formState, address: e.target.value})} />
-        </label>
-        <label>City
-        <input type="text" value={formState.city} onChange={(e) => setFormState({...formState, city: e.target.value})} />
-        </label>
-        <label>State
-        <input type="text" value={formState.state} onChange={(e) => setFormState({...formState, state: e.target.value})} />
-        </label>
-        <label>Description
-        <input type="text" value={formState.description} onChange={(e) => setFormState({...formState, description: e.target.value})} />
-        </label>
-        <label>Name
-        <input type="text" value={formState.name} onChange={(e) => setFormState({...formState, name: e.target.value})} />
-        </label>
-        <label>Price
-        <input type="text" value={formState.price} onChange={(e) => setFormState({...formState, price: e.target.value})} />
-        </label>
-        <label>Latitude
-        <input type="text" value={formState.latitude} onChange={(e) => setFormState({...formState, latitude: e.target.value})} />
-        </label>
-        <label>Longitude
-        <input type="text" value={formState.longitude} onChange={(e) => setFormState({...formState, longitude: e.target.value})} />
-        </label>
-        {/* PreviewIMAGE and Imageu_URLS Optional for MVP */}
-        {/* <label>Preview Image URL */}
-        {/* <input type="text" value={formState.preview_image_url} onChange={(e) => setFormState({...formState, preview_image_url: e.target.value})} />
-        </label>
-        {formState.image_urls.map((imageUrl, index) => ( */}
-        {/* <label key={index}>Image URL {index + 1} */}
-        {/* <input type="text" value={imageUrl} onChange={(e) => { */}
-        {/* let newImageUrls = [...formState.image_urls]; */}
-        {/* newImageUrls[index] = e.target.value; */}
-        {/* setFormState({...formState, image_urls: newImageUrls}); */}
-        {/* }} /> */}
-        {/* </label> */}
-        {/* ))} */}
-        <div className="form-submit">
-        <button type="submit" disabled={!formIsValid()}>Update Spot</button>
-        </div>
+            <h2>Update Your Spot</h2>
+            <h3>Where is your spot located?</h3>
+            <p>Guests will only get your exact address once they booked a reservation.</p>
+            <label>Country
+                <input type="text" value={formState.country} onChange={(e) => setFormState({ ...formState, country: e.target.value })} />
+            </label>
+            <label>Address
+                <input type="text" value={formState.address} onChange={(e) => setFormState({ ...formState, address: e.target.value })} />
+            </label>
+            <label>City
+                <input type="text" value={formState.city} onChange={(e) => setFormState({ ...formState, city: e.target.value })} />
+            </label>
+            <label>State
+                <input type="text" value={formState.state} onChange={(e) => setFormState({ ...formState, state: e.target.value })} />
+            </label>
+            <label>Latitude
+                <input type="text" value={formState.latitude} onChange={(e) => setFormState({ ...formState, latitude: e.target.value })} />
+            </label>
+            <label>Longitude
+                <input type="text" value={formState.longitude} onChange={(e) => setFormState({ ...formState, longitude: e.target.value })} />
+            </label>
+            <label>Description
+                <h3>Describe your place to guests</h3>
+                <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
+                <input type="text" value={formState.description} onChange={(e) => setFormState({ ...formState, description: e.target.value })} />
+            </label>
+            <h3>Create a title for your spot</h3>
+            <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+            <label>Name
+                <input type="text" value={formState.name} onChange={(e) => setFormState({ ...formState, name: e.target.value })} />
+            </label>
+            <h2>Set a base price for your spot</h2>
+            <span>Competitive pricing can help your listing stand out and rank higher in search results.</span>
+            <label>Price
+                <input type="text" value={formState.price} onChange={(e) => setFormState({ ...formState, price: e.target.value })} />
+            </label>
+            <div className="form-submit">
+                <button type="submit" disabled={!formIsValid()}>Update Spot</button>
+            </div>
         </form>
-        );
-    }
+    );
+}
 export default UpdateSpotForm;
