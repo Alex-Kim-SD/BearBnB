@@ -37,7 +37,7 @@ const SpotList = ({ showManageOptions }) => {
                 className="spot-tile"
               >
                 <h3>{spot.name}</h3>
-                {console.log('\n','CONSOLE.LOG SPOTLISTPAGE spot',spot,'\n')}
+                {/* {console.log('\n','CONSOLE.LOG SPOTLISTPAGE spot',spot,'\n')} */}
                 <img src={spot.preview_image} alt="Preview" />
                 <p>{spot.description}</p>
                 {showManageOptions && (

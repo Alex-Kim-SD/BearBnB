@@ -2,83 +2,84 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchSpotDetail, fetchSpotReviews} from '../../store/spots';
+import { fetchSpotDetail, fetchSpotReviews, fetchUserReviews } from '../../store/spots';
+import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
+import { useModal } from "../../context/Modal";
 
 const SpotDetailPage = () => {
-  // Fetching data
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { setModalContent } = useModal();
+  const currentUser = useSelector((state) => state.session.user)
+  // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
+  const spot = useSelector((state) => state.spots.singleSpot[id]);
 
-  useEffect(() => {
+   useEffect(() => {
     dispatch(fetchSpotDetail(id));
     dispatch(fetchSpotReviews(id));
-  }, [dispatch, id]);
+    // if (currentUser) {
+    //   dispatch(fetchUserReviews(id)); // fetch the user's reviews
+    // }
+  }, [dispatch, id, currentUser]);
+    // console.log('\n','SPOTDETAILPAGE LOG | SPOT', spot, '\n')
 
-  // Selecting data from the store
-  const spot = useSelector((state) => state.spots.singleSpot[id]);
-  const reviews = useSelector((state) => state.spots.singleSpot[id]?.reviews);
 
-  // Handling data loading
+
+
   if (!spot) {
     return <div>Loading...</div>;
   }
-
-  // Extracting spot data
   const { name, city, state, country, owner, description, spotImages, price } = spot;
+  const reviews = spot?.reviews
+  console.log('\n','SPOTDETAILPAGE LOG | reviews',reviews,'\n')
 
+  const hasReviewed = reviews?.some((review) => review?.user_id === currentUser?.id) || false
+  console.log('\n','SPOTDETAILPAGE LOG | hasReviewed',hasReviewed,'\n')
+
+
+  // console.log('\n','SPOTDETAILPAGE LOG | CurrentUser:',currentUser,'Owner',owner,'\n')
+  const isOwner = currentUser?.id === owner?.id;
+  // console.log('\n','SPOTDETAILPAGE LOG | isOwner',isOwner,'\n')
   // Event handlers
   const handleReserveClick = () => {
     alert("Feature coming soon");
   };
-
-  // Calculating review data
-  let averageRating;
-  let reviewCount;
-  if (reviews) {
-    reviewCount = reviews.length;
-    averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviewCount;
-  } else {
-    averageRating = "New";
-    reviewCount = 0;
-  }
-
   // Rendering
   return (
     <div id="spot-detail-page">
       <h1>{name}</h1>
       <p>Location: {city}, {state}, {country}</p>
-
       <div className="spot-images">
-        <img src={spotImages[0].url} alt="Spot" className="main-image" />
-        <div className="thumbnail-images">
-          {spotImages.slice(1, 5).map((image) => (
-            <img key={image.id} src={image.url} alt="Spot Thumbnail" />
-          ))}
-        </div>
+        {spotImages && spotImages.length > 0 ? (
+          <>
+            <img src={spotImages[0].url} alt="Spot" className="main-image" />
+            <div className="thumbnail-images">
+              {spotImages.slice(1, 5).map((image) => (
+                <img key={image.id} src={image.url} alt="Spot Thumbnail" />
+              ))}
+            </div>
+          </>
+        ) : (
+          <img src="/frontend/PhotoFolder/defaulthouse.jpg" alt="Default Spot" className="main-image" />
+        )}
       </div>
+      {/* ************************REVIEW FORM HERE************************ */}
+      <div>
+  {currentUser && !(hasReviewed || isOwner) && (
+    <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>
+      Post Your Review
+    </button>
+  )}
+</div>
 
+
+      {/* ************************REVIEW FORM HERE************************ */}
+      {/* <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>Post Your Review</button> */}
       <div className="spot-info">
-        <div className="spot-owner">Hosted by {owner.first_name} {owner.last_name}</div>
+      {/* {console.log('\n',"SPOTDETAILPAGE, OWNER:", owner,'\n',)}; */}
+
+        <div className="spot-owner">Hosted by {owner?.first_name} {owner?.last_name}</div>
         <p>{description}</p>
-
-        <div className="spot-reviews">
-          <div className="review-summary">
-            <i className="fas fa-star"></i> {averageRating}
-            {reviewCount > 0 && <>&middot; {reviewCount} Review{reviewCount > 1 ? 's' : ''}</>}
-          </div>
-
-          {reviews && reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div key={review.id} className="review">
-                <h3>{review.user.first_name}</h3>
-                <p>{new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-                <p>{review.comment}</p>
-              </div>
-            ))
-          ) : (
-            <p>Be the first to post a review!</p>
-          )}
-        </div>
 
         <div className="spot-reservation">
           <h2>{price} per night</h2>

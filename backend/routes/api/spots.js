@@ -314,7 +314,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
       review,
       stars,
     });
-
+    // console.log('\n',"BACKEND CREATE NEW REVIEW | newReview", newReview,'\n',);
     res.status(201).json({
       id: newReview.id,
       userId: newReview.user_id,
@@ -325,8 +325,8 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
       updatedAt: newReview.updated_at
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    // console.log('\n',"Error when creating review:", err.message, err.stack,'\n',);
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
 

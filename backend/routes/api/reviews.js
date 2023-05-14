@@ -35,7 +35,7 @@ router.get('/current', async (req, res) => {
     res.json({ Reviews: reviews });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: 'Server Error Get all Reviews' });
   }
 });
 
