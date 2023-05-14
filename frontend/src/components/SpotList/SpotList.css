@@ -1,39 +1,53 @@
-/* SpotList.css */
-.spot-ul {
-  justify-content: center;
+.spot-list {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.spot-ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .spot-tile {
-  cursor: pointer;
-  width: 250px;
-  height: 300px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  align-items: flex-start; /* align items to the left */
+  justify-content: space-between;
+  width: calc(25% - 20px); /* 4 tiles per row with 20px gap */
+  margin: 10px; /* creates a 20px gap between tiles */
+  box-sizing: border-box;
 }
 
 .spot-tile img {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  height: auto;
 }
 
-.spot-tile h3 {
-  font-size: 18px;
-  margin-top: 10px;
+.below_image {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.spot-tile p {
+.city_state {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.rating {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.price {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.manage-button {
   margin-top: 10px;
-  text-align: center;
 }

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSpotDetail, fetchSpotReviews, fetchUserReviews } from '../../store/spots';
+import { fetchSpotDetail, fetchSpotReviews } from '../../store/spots';
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import { useModal } from "../../context/Modal";
 

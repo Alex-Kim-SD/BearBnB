@@ -8,7 +8,6 @@ const SpotList = ({ showManageOptions }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const spots = useSelector((state) => state.spots.allSpots);
-
   useEffect(() => {
     dispatch(fetchAllSpots());
   }, [dispatch]);
@@ -23,7 +22,6 @@ const SpotList = ({ showManageOptions }) => {
     dispatch(deleteSpot(spotId));
   };
 
-  // console.log('\n','CONSOLE.LOG SPOTLISTPAGE','\n') // cv cl
   return (
     <div>
       <h2>Spot List</h2>
@@ -33,13 +31,21 @@ const SpotList = ({ showManageOptions }) => {
             Object.values(spots).map((spot) => (
               <li
                 key={spot.id}
+                title={spot.name} // Tooltip
                 onClick={(e) => handleSpotClick(spot.id, e)}
                 className="spot-tile"
               >
-                <h3>{spot.name}</h3>
-                {/* {console.log('\n','CONSOLE.LOG SPOTLISTPAGE spot',spot,'\n')} */}
+                {/* <h3>{spot.name}</h3> */}
                 <img src={spot.preview_image} alt="Preview" />
                 <p>{spot.description}</p>
+                <div className="below_image">
+                  <div className="city_state"> {spot.city}, {spot.state}
+                      <div className="rating">{spot.avg_rating ? (<><span role="img" aria-label="star">🌟</span> {spot.avg_rating}</>) : ("New")}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="price"> ${spot.price} night
+                </div>
                 {showManageOptions && (
                   <div>
                     <button className="manage-button" onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>
