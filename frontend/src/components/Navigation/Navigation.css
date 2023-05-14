@@ -12,15 +12,18 @@ nav {
   }
 
   .navigation__title {
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
+    align-items: center;
     margin-left: 8px;
+    text-decoration: solid;
+    color: #FF3B40;
   }
 
   .navigation__logo {
     width: 30px;
     height: 30px;
-    vertical-align: middle;
+    vertical-align:auto
   }
 
   .navigation__right {

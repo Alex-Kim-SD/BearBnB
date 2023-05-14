@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createReview } from "../../store/spots";
 import "./ReviewForm.css";
+import StarRating from "../StarRating/StarRating";
 
 function ReviewFormModal({ spotId }) {
   const dispatch = useDispatch();
@@ -29,7 +30,6 @@ function ReviewFormModal({ spotId }) {
       });
   };
 
-
   return (
     <>
       <h1>How was your stay?</h1>
@@ -45,13 +45,9 @@ function ReviewFormModal({ spotId }) {
         </label>
         <label>
           Stars
-          <input
-            type="number"
-            min="1"
-            max="5"
-            value={stars}
-            onChange={(e) => setStars(e.target.value)}
-            required
+          <StarRating
+            rating={stars}
+            onRatingChange={(newRating) => setStars(newRating)}
           />
         </label>
         {errors.review && (

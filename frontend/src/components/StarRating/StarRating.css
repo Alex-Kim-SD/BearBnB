@@ -1,0 +1,15 @@
+.filled {
+    color: gold;
+  }
+
+  .empty {
+    color: gray;
+  }
+
+  .empty:hover, .empty:hover ~ .empty {
+    color: lightgray;
+  }
+
+  .empty:hover, .empty:hover ~ .filled {
+    color: gold;
+  }
