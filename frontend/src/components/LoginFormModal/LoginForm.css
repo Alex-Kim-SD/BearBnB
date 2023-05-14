@@ -1,0 +1,58 @@
+.loginmodal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 450px;
+    height: 425px;
+    padding: 1rem;
+  }
+
+  #loginmodaltitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .loginsubmit {
+    width: 100%;
+  }
+
+  .loginform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .loginmodal label {
+    margin-bottom: 1rem;
+  }
+
+  .loginmodal input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .loginmodal p {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: red;
+  }
+
+  .loginmodal button {
+    background-color: #FF5A5F;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+
+  .loginmodal button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
