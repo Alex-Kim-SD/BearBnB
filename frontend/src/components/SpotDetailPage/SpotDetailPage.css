@@ -1,50 +1,62 @@
-.spot-info {
-    display: flex;
-    justify-content: space-around;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+.spot-images {
+  display: flex;
 }
 
-.spot-hostdesc{
-    width: 50%;
+.main-image {
+  width: 50%;
+  padding: 1em;
+}
+
+.thumbnail-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 50%;
+}
+
+.thumbnail-images img {
+  flex: 0 1 auto;
+  width: 43%;
+  height: 43%;
+  padding: 1em;
+}
+
+.spot-info {
+  display: flex;
+  margin-top: 2em;
+  justify-content: space-around;
+}
+
+.review-item {
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .spot-callout {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid black;
-    width: 30%;
-    border-radius: 1em;
-    align-self: center;
-    padding: 1em;
+  flex-grow: 0;
+  overflow: wrap;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  width: 30%;
+  border-radius: 1em;
+  padding: 1em;
 }
 
-.spot-images {
-    display: flex;
-    border: 1px solid #000;
-  }
-
-  .main-image {
-    border: 1px solid #000;
-    width: 50%;
-  }
-
-  .thumbnail-images {
-    border: 1px solid #000;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    width: 50%;
-  }
-
-  .thumbnail-images img {
-    border: 1px solid #000;
-    width: 49%;
-    height: 49%;
-  }
-.review-section{
-    border: 1px solid #000;
+.spot-hostdesc {
+  flex-grow: 0;
+  overflow: wrap;
+  box-sizing: border-box;
+  position: relative;
+  width: 50%;
 }
-  .review-item {
-    border: 1px solid #000;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+
+.spot-hostdesc > p {
+  text-overflow: wrap;
+  word-break: break-all;
+  white-space: normal;
+}
