@@ -1,4 +1,4 @@
-////File path BearBnB/frontend/src/context/Modal.js
+// /File path BearBnB/frontend/src/context/Modal.js
 import React, { useRef, useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import "./Modal.css";

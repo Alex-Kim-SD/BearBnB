@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useStore } from 'react-redux';
+import { useDispatch, useStore, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createSpot } from '../../store/spots';
 
@@ -8,6 +8,8 @@ const CreateSpotForm = () => {
     const store = useStore();
     const { getState } = store;
     const [errorMessages, setErrorMessages] = useState({});
+    const serverError = useSelector(state => state.spots.error);
+
 
     const formIsValid = () => {
         const errors = {};
@@ -73,7 +75,6 @@ const CreateSpotForm = () => {
         } else {
             setFormState({ ...formState, [name]: value });
         }
-        formIsValid(); // validate the form each time an input changes
     };
 
 
@@ -107,6 +108,7 @@ const CreateSpotForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <h2>Create a New Spot</h2>
+            {serverError && <div className="server-error">{serverError}</div>}
             {Object.keys(errorMessages).length > 0 && <div className="form-errors">
                 <h4>There were some errors with your submission</h4>
                 <ul>
@@ -134,10 +136,10 @@ const CreateSpotForm = () => {
                 </div>
                 <div>
                     <label htmlFor="latitude">Latitude</label>
-                    <input type="text" id="latitude" name="latitude" value={formState.latitude} onChange={handleInputChange} placeholder="Latitude" />
+                    <input type="number" id="latitude" name="latitude" value={formState.latitude} onChange={handleInputChange} placeholder="Latitude" />
 
                     <label htmlFor="longitude">Longitude</label>
-                    <input type="text" id="longitude" name="longitude" value={formState.longitude} onChange={handleInputChange} placeholder="Longitude" />
+                    <input type="number" id="longitude" name="longitude" value={formState.longitude} onChange={handleInputChange} placeholder="Longitude" />
                 </div>
 
 
@@ -240,7 +242,8 @@ const CreateSpotForm = () => {
             </div>
 
             <div className="form-submit">
-                <button type="submit" disabled={Object.keys(errorMessages).length > 0}>Create Spot</button>
+        {/* {console.log('\n','Create Spot Form Error Messages',errorMessages)} */}
+                <button type="submit">Create Spot</button>
             </div>
         </form>
     );

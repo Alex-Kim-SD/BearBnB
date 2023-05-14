@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useStore } from 'react-redux';
+import { useDispatch, useStore, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateSpot, fetchSpotDetailReturnSpot} from '../../store/spots';
 
@@ -26,7 +26,7 @@ const UpdateSpotForm = () => {
 
     useEffect(() => {
         dispatch(fetchSpotDetailReturnSpot(id)).then(spot => {
-            // console.log('\n','UPDATESPOTFORM.JS | SPOT',spot,'\n')
+            console.log('UPDATESPOTFORM.JS | SPOT',spot)
             setFormState({
                 country: spot.country,
                 address: spot.address,
@@ -139,6 +139,19 @@ const UpdateSpotForm = () => {
         <label>Longitude
         <input type="text" value={formState.longitude} onChange={(e) => setFormState({...formState, longitude: e.target.value})} />
         </label>
+        {/* PreviewIMAGE and Imageu_URLS Optional for MVP */}
+        {/* <label>Preview Image URL */}
+        {/* <input type="text" value={formState.preview_image_url} onChange={(e) => setFormState({...formState, preview_image_url: e.target.value})} />
+        </label>
+        {formState.image_urls.map((imageUrl, index) => ( */}
+        {/* <label key={index}>Image URL {index + 1} */}
+        {/* <input type="text" value={imageUrl} onChange={(e) => { */}
+        {/* let newImageUrls = [...formState.image_urls]; */}
+        {/* newImageUrls[index] = e.target.value; */}
+        {/* setFormState({...formState, image_urls: newImageUrls}); */}
+        {/* }} /> */}
+        {/* </label> */}
+        {/* ))} */}
         <div className="form-submit">
         <button type="submit" disabled={!formIsValid()}>Update Spot</button>
         </div>
