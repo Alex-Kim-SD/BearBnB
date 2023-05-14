@@ -30,11 +30,10 @@ const SpotDetailPage = () => {
     return null;
   };
 
-
-
   if (!spot) {
     return <div>Loading...</div>;
   }
+
   const { name, city, state, country, owner, description, spotImages, price } = spot;
   const reviews = spot?.reviews
   console.log('\n', 'SPOTDETAILPAGE LOG | reviews', reviews, '\n')

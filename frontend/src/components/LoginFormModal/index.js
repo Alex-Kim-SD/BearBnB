@@ -28,11 +28,8 @@ function LoginFormModal() {
   };
 
   const handleDemoLogin = () => {
-    dispatch(sessionActions.login({ credential: 'ExampleUsername', password: 'demopass' }))
+    dispatch(sessionActions.login({ credential: 'demo-user', password: 'demopass' }))
       .then(closeModal)
-      .catch(() => {
-        setErrors({ credential: "The provided credentials were invalid" });
-      });
   }
 
   return (

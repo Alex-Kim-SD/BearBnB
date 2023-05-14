@@ -1,7 +1,6 @@
 // src/components/ReviewFormModal/ReviewFormModal.js
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { postReview } from "../../store/spots";  // You'll need to create this action
 import { useModal } from "../../context/Modal";
 import { createReview } from "../../store/spots";
 import "./ReviewForm.css";
@@ -16,7 +15,7 @@ function ReviewFormModal({ spotId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    return dispatch(createReview(spotId, { review, stars }))
+    dispatch(createReview(spotId, { review, stars }))
       .then(() => {
         setReview(""); // clear the review
         setStars(0); // clear the stars

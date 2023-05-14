@@ -278,23 +278,17 @@ const spotsReducer = (state = initialState, action) => {
 
     case CREATE_REVIEW:
       return {
-        ...state,
-        singleSpot: {
-          ...state.singleSpot,
-          [action.review.spotId]: {
-            ...state.singleSpot[action.review.spotId],
-            reviews: [...state.singleSpot[action.review.spotId]?.reviews || [], action.review],
+        ...state,singleSpot: {
+          ...state.singleSpot,[action.review.spotId]: {
+            ...state.singleSpot[action.review.spotId], reviews: [...state.singleSpot[action.review.spotId]?.reviews || [], action.review],
           },
         },
       };
       case DELETE_REVIEW:
   return {
-    ...state,
-    singleSpot: {
-      ...state.singleSpot,
-      [action.payload.spotId]: {
-        ...state.singleSpot[action.payload.spotId],
-        reviews: state.singleSpot[action.payload.spotId]?.reviews.filter(
+    ...state,singleSpot: {
+      ...state.singleSpot,[action.payload.spotId]: {
+        ...state.singleSpot[action.payload.spotId], reviews: state.singleSpot[action.payload.spotId]?.reviews?.filter(
           (review) => review.id !== action.payload.reviewId
         ),
       },
