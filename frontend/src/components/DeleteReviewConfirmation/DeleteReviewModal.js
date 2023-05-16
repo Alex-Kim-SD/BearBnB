@@ -1,7 +1,7 @@
 // DeleteConfirmationModal.js
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteReview, fetchSpotReviews } from '../../store/spots';
+import { deleteReview, fetchSpotReviews } from '../../store/reviews';
 import { useModal } from '../../context/Modal';
 
 const DeleteConfirmationModal = ({ reviewId, spotId }) => {

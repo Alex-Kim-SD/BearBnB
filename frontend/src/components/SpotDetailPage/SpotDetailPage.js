@@ -2,20 +2,24 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSpotDetail, fetchSpotReviews } from '../../store/spots';
+import { fetchSpotDetail } from '../../store/spots';
+import {fetchSpotReviews } from '../../store/reviews'
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import { useModal } from "../../context/Modal";
 import DeleteConfirmationModal from "../DeleteReviewConfirmation/DeleteReviewModal";
 import "./SpotDetailPage.css"
 
 const SpotDetailPage = () => {
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { setModalContent, closeModal } = useModal();
   const currentUser = useSelector((state) => state.session.user)
-  // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
   const spot = useSelector((state) => state.spots.singleSpot[id]);
+  const reviews = useSelector((state) => state.reviews.spotReviews[id] || []);
   // console.log('\n','SPOTDETAILPAGE LOG | SPOT', spot, '\n')
+   // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
+
   useEffect(() => {
     dispatch(fetchSpotDetail(id));
     dispatch(fetchSpotReviews(id));
@@ -35,7 +39,6 @@ const SpotDetailPage = () => {
   }
 
   const { name, city, state, country, owner, description, spotImages, price } = spot;
-  const reviews = spot?.reviews
   console.log('\n', 'SPOTDETAILPAGE LOG | reviews', reviews, '\n')
   const avgReview = calculateAverageStars()
   const reviewCount = reviews ? reviews.length : 0
@@ -56,7 +59,7 @@ const SpotDetailPage = () => {
   return (
     <div id="spot-detail-page">
       <h1>{name}</h1>
-      <p>Location: {city}, {state}, {country}</p>
+      <p>{city}, {state}, {country}</p>
       <div className="spot-images">
         {spotImages?.length > 0 ? (
           <>

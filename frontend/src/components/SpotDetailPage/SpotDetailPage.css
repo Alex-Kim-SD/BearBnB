@@ -47,6 +47,11 @@
   padding: 1em;
 }
 
+.calloutpricereview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .spot-hostdesc {
   flex-grow: 0;
   overflow: wrap;

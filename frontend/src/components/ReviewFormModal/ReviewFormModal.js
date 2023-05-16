@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { createReview } from "../../store/spots";
+import { createReview } from "../../store/reviews";
 import "./ReviewForm.css";
 import StarRating from "../StarRating/StarRating";
+import { useHistory } from "react-router-dom";
+
 
 function ReviewFormModal({ spotId }) {
   const dispatch = useDispatch();
@@ -12,6 +14,7 @@ function ReviewFormModal({ spotId }) {
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,13 +24,8 @@ function ReviewFormModal({ spotId }) {
         setReview(""); // clear the review
         setStars(0); // clear the stars
         closeModal();
+        history.go(0)
       })
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
   };
 
   return (

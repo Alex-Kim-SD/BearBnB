@@ -5,10 +5,7 @@ const GET_SINGLE_SPOT = "spots/getSingleSpot";
 const CREATE_SPOT = 'spotForm/CREATE_SPOT';
 const DELETE_SPOT = 'spots/DELETE_SPOT';
 const UPDATE_SPOT = 'spots/UPDATE_SPOT';
-const GET_SPOT_REVIEWS = "spots/getSpotReviews";
-const GET_USER_REVIEWS = "reviews/getUserReviews";
-const CREATE_REVIEW = "spots/createReview";
-const DELETE_REVIEW = "spots/deleteReview";
+
 
 
 // ********************************************************************************************
@@ -45,30 +42,6 @@ const updateSpotAction = (spot) => ({
   spot,
 })
 
-const getSpotReviews = (spotId, reviews) => ({
-  type: GET_SPOT_REVIEWS,
-  payload: {
-    spotId,
-    reviews,
-  },
-});
-
-const getUserReviews = (reviews) => ({
-  type: GET_USER_REVIEWS,
-  reviews,
-});
-
-const createReviewAction = (review) => ({
-  type: CREATE_REVIEW,
-  review,
-});
-
-const deleteReviewAction = (reviewId, spotId) => ({
-  type: DELETE_REVIEW,
-  payload: { reviewId, spotId },
-});
-
-
 // ********************************************************************************************
 export const fetchSpotDetail = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}`);
@@ -90,47 +63,6 @@ export const fetchAllSpots = () => async dispatch => {
     const data = await response.json();
     console.log('frontend/src/store/spots.js Data received from API FETCH ALL SPOTS:', data)
     dispatch(setAllSpots(data.Spots));
-  }
-};
-
-export const fetchSpotReviews = (spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
-  // console.log('frontend/src/store/spots.js API FETCH SPOT REVIEWS:', response)
-  if (response.ok) {
-    const data = await response.json();
-    // console.log('\n','API FETCH SPOT REVIEWS:', data,'\n')
-    dispatch(getSpotReviews(spotId, data.Reviews));
-  } else {
-    throw new Error("Failed to fetch reviews for spot");
-  }
-};
-
-export const fetchUserReviews = (userId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/current`);
-  // console.log('\n', 'FETCH USER REVIEWS RESPONSE', response, '\n')
-  if (response.ok) {
-    const data = await response.json();
-    // console.log('frontend/src/store/spots.js Data received from API FETCH USER REVIEWS:', data)
-    dispatch(getUserReviews(data.reviews));
-  } else {
-    throw new Error("Failed to fetch user reviews");
-  }
-};
-
-export const createReview = (spotId, reviewData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(reviewData),
-  });
-
-  if (response.ok) {
-    const review = await response.json();
-    dispatch(createReviewAction(review));
-  } else {
-    throw new Error('Failed to create review');
   }
 };
 
@@ -215,18 +147,6 @@ export const updateSpot = (spotId, spotData) => async (dispatch) => {
   }
 };
 
-export const deleteReview = (reviewId, spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
-    method: 'DELETE',
-  });
-
-  if (response.ok) {
-    dispatch(deleteReviewAction(reviewId, spotId));
-  } else {
-    throw new Error('Failed to delete review');
-  }
-};
-
 
 
 
@@ -244,7 +164,6 @@ const spotsReducer = (state = initialState, action) => {
       const singleSpot = { ...state.singleSpot, [action.spot.id]: action.spot };
       return { ...state, singleSpot };
     case CREATE_SPOT:
-      // Handle state updates for spot form submission
       return state;
     case DELETE_SPOT:
       const newState = { ...state };
@@ -258,42 +177,6 @@ const spotsReducer = (state = initialState, action) => {
           [action.spot.id]: action.spot,
         },
       };
-      case GET_USER_REVIEWS:
-  return {
-    ...state,
-    userReviews: action.reviews,
-  };
-  case GET_SPOT_REVIEWS:
-    const { spotId, reviews } = action.payload;
-    return {
-      ...state,
-      singleSpot: {
-        ...state.singleSpot,
-        [spotId]: {
-          ...state.singleSpot[spotId],
-          reviews: reviews,
-        },
-      },
-    };
-
-    case CREATE_REVIEW:
-      return {
-        ...state,singleSpot: {
-          ...state.singleSpot,[action.review.spotId]: {
-            ...state.singleSpot[action.review.spotId], reviews: [...state.singleSpot[action.review.spotId]?.reviews || [], action.review],
-          },
-        },
-      };
-      case DELETE_REVIEW:
-  return {
-    ...state,singleSpot: {
-      ...state.singleSpot,[action.payload.spotId]: {
-        ...state.singleSpot[action.payload.spotId], reviews: state.singleSpot[action.payload.spotId]?.reviews?.filter(
-          (review) => review.id !== action.payload.reviewId
-        ),
-      },
-    },
-  };
     default:
       return state;
   }
