@@ -70,9 +70,7 @@ export const createSpot = (formData) => async (dispatch) => {
   console.log('\n', 'CL FormData', formData, '\n') // Hitting
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: {'Content-Type': 'application/json',},
     body: JSON.stringify(formData),
   });
 
@@ -86,9 +84,7 @@ export const createSpot = (formData) => async (dispatch) => {
 
     const imageResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {"Content-Type": "application/json",},
       body: JSON.stringify(PreviewSpotImage),
     });
     console.log('\n', 'CL ImageResponse', imageResponse, '\n')
@@ -105,9 +101,7 @@ export const createSpot = (formData) => async (dispatch) => {
         }
         const imageURLResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: {"Content-Type": "application/json",},
           body: JSON.stringify(imageUrl),
         })
         console.log('\n', 'CL SPOT STORE ACTION Image_url', imageURLResponse, '\n')
