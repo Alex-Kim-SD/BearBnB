@@ -1,20 +1,23 @@
-Ensure that your local dev branch is up to date with the remote dev branch. Run the following command to fetch the latest changes:
+git push --set-upstream origin dev
+This command tells Git to create a new branch on the remote repository named dev that tracks your local dev branch.
+The --set-upstream flag (or -u for short) sets the upstream branch for the current branch.
 
-bash
-Copy code
-git fetch origin dev
-Switch to the main branch using the following command:
+After this, you can simply use git push in the future while you're on the dev branch, and Git will know that you mean to push to dev on the remote repository.
 
-bash
-Copy code
+After pushing your changes, you can merge the dev branch into main:
+
+First, checkout to the main branch:
+
 git checkout main
-Merge the changes from the dev branch into the main branch using the following command:
 
-bash
-Copy code
+Then, pull the latest changes from the remote main branch (just to make sure you're up to date):
+
+git pull origin main
+
+After you've ensured your main branch is up to date, you can merge the dev branch into main:
+
 git merge dev
-Now, you can push the changes to the remote main branch:
 
-bash
-Copy code
+This will merge all the changes from dev into main. If there are no conflicts, you can then push main to the remote repository:
+
 git push origin main
