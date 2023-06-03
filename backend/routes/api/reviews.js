@@ -60,6 +60,18 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
 
     await existingReview.destroy();
 
+    // Adjusting avg_rating
+    const spot = await Spot.findByPk(existingReview.spot_id);
+    const reviews = await Review.findAll({ where: { spot_id: spot.id } });
+    let avg_rating;
+    if (reviews.length > 0) {
+      avg_rating = reviews.reduce((acc, cur) => acc + cur.stars, 0) / reviews.length;
+    } else {
+      avg_rating = 0; // 0 if no reviews are left
+    }
+    // Update the spot with the new average rating
+    await spot.update({ avg_rating });
+
     res.status(200).json({ message: "Successfully deleted" });
   } catch (err) {
     console.error(err);

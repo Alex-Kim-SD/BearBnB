@@ -315,6 +315,10 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
       review,
       stars,
     });
+    // Update avg_rating
+    const reviews = await Review.findAll({ where: { spot_id: spot.id } });
+    const avg_rating = reviews.reduce((acc, cur) => acc + cur.stars, 0) / reviews.length;
+    await spot.update({ avg_rating });
     // console.log('\n',"BACKEND CREATE NEW REVIEW | newReview", newReview,'\n',);
     res.status(201).json({
       id: newReview.id,
