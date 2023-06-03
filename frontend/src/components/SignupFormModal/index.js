@@ -47,7 +47,6 @@ function SignupFormModal() {
     <div className="signupmodal">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label>
           <input
             type="text"
             placeholder="Email"
@@ -55,9 +54,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
           <input
             placeholder="Username"
             type="text"
@@ -65,9 +62,7 @@ function SignupFormModal() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
           <input
             placeholder="First Name"
             type="text"
@@ -75,9 +70,7 @@ function SignupFormModal() {
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-        </label>
         {errors.first_name && <p>{errors.first_name}</p>}
-        <label>
           <input
             placeholder="Last Name"
             type="text"
@@ -85,9 +78,7 @@ function SignupFormModal() {
             onChange={(e) => setLastName(e.target.value)}
             required
           />
-        </label>
         {errors.last_name && <p>{errors.last_name}</p>}
-        <label>
           <input
             placeholder="Password"
             type="password"
@@ -95,9 +86,7 @@ function SignupFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
         {errors.password && <p>{errors.password}</p>}
-        <label>
           <input
             placeholder="Confirm Password"
             type="password"
@@ -105,7 +94,6 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}

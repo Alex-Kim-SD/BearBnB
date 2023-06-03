@@ -31,12 +31,11 @@ const createReviewAction = (spotId, review) => ({
     }
 });
 
-
-
 const deleteReviewAction = (reviewId, spotId) => ({
     type: DELETE_REVIEW,
     payload: { reviewId, spotId },
 });
+
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
     // console.log('frontend/src/store/spots.js API FETCH SPOT REVIEWS:', response)
@@ -111,7 +110,7 @@ const reviewsReducer = (state = initialState, action) => {
             };
 
         case CREATE_REVIEW:
-            console.log('ACTION PAYLOAD', action.payload)
+            // console.log('ACTION PAYLOAD', action.payload)
             const { spotId, review } = action.payload;
             return {
                 ...state,
