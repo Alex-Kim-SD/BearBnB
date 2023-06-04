@@ -44,7 +44,6 @@ const SpotDetailPage = () => {
   const reviewCount = reviews ? reviews.length : 0
   const hasReviewed = reviews?.some((review) => review?.user_id === currentUser?.id) || false
   // console.log('\n','SPOTDETAILPAGE LOG | hasReviewed',hasReviewed,'\n')
-
   // console.log('\n','SPOTDETAILPAGE LOG | CurrentUser:',currentUser,'Owner',owner,'\n')
   const isOwner = currentUser?.id === owner?.id;
   // console.log('\n','SPOTDETAILPAGE LOG | isOwner',isOwner,'\n')
@@ -111,8 +110,9 @@ const SpotDetailPage = () => {
           <div className="review-list">
             {reviews.map((review) => (
               <div key={review.id} className="review-item">
+                {console.log('\n','REVIEW',review,'\n')}
                 <p className="review-first-name">{review?.user?.first_name}</p>
-                <p className="review-date">{new Date(review?.created_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
+                <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
                 <p className="review-comment">{review?.review}</p>
                 {currentUser?.id === review.user_id && (
                   <button onClick={() => handleDeleteClick(review.id)}>Delete Review</button>

@@ -14,7 +14,7 @@ function ReviewFormModal({ spotId }) {
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const history = useHistory();
+  // const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,7 +24,6 @@ function ReviewFormModal({ spotId }) {
         setReview(""); // clear the review
         setStars(0); // clear the stars
         closeModal();
-        history.go(0)
       })
   };
 

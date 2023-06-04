@@ -72,6 +72,7 @@ export const createReview = (spotId, reviewData) => async (dispatch) => {
     if (response.ok) {
       const review = await response.json();
       dispatch(createReviewAction(spotId, review));
+      dispatch(fetchSpotReviews(spotId));
       return review
     } else {
       throw new Error('Failed to create review');
@@ -112,11 +113,10 @@ const reviewsReducer = (state = initialState, action) => {
         case CREATE_REVIEW:
             // console.log('ACTION PAYLOAD', action.payload)
             const { spotId, review } = action.payload;
+            review.createdAt = new Date(review.createdAt);
             return {
-                ...state,
-                spotReviews: {
-                    ...state.spotReviews,
-                    [spotId]: [...state.spotReviews[spotId] || [], review],
+                ...state, spotReviews: {
+                    ...state.spotReviews,[spotId]: [...state.spotReviews[spotId] || [], review],
                 },
             };
 
