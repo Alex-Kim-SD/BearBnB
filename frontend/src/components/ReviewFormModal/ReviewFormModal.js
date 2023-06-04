@@ -5,7 +5,6 @@ import { useModal } from "../../context/Modal";
 import { createReview } from "../../store/reviews";
 import "./ReviewForm.css";
 import StarRating from "../StarRating/StarRating";
-import { useHistory } from "react-router-dom";
 
 
 function ReviewFormModal({ spotId }) {
