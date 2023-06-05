@@ -112,7 +112,7 @@ const SpotDetailPage = () => {
           <div className="review-list">
             {reviews.map((review) => (
               <div key={review.id} className="review-item">
-                {console.log('\n','REVIEW',review,'\n')}
+                {/* {console.log('\n','REVIEW',review,'\n')} */}
                 <p className="review-first-name">{review?.user?.first_name}</p>
                 <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
                 <p className="review-comment">{review?.review}</p>

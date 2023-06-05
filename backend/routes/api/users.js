@@ -1,3 +1,4 @@
+// /home/alex5/BearBnB/backend/routes/api/users.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
@@ -18,7 +19,12 @@ const validateSignup = [
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage('Please provide a username with at least 4 characters.')
+    .custom(async value => {
+      const user = await User.findOne({ where: { username: value } });
+      if (user) {
+        return Promise.reject('Username already in use');
+      }}),
   check('username')
     .not()
     .isEmail()
@@ -43,29 +49,6 @@ router.post(
   validateSignup,
   async (req, res) => {
     const { email, password, username, first_name, last_name } = req.body;
-
-    const validationErrors = validationResult(req);
-    if (!validationErrors.isEmpty()) {
-      const errors = {};
-      validationErrors
-        .array()
-        .forEach(error => errors[error.param] = error.msg);
-      return res.status(400).json({
-        message: 'Bad Request',
-        errors
-      });
-    }
-    const existingUserByUsername = await User.findOne({
-      where: { username: username }
-    });
-    if (existingUserByUsername) {
-      return res.status(500).json({
-        message: "User already exists",
-        errors: {
-          username: "User with that username already exists"
-        }
-      });
-    }
 
     const role = 'user';
     const created_at = new Date();

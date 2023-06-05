@@ -3,10 +3,8 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSpotDetail } from '../../store/spots';
 import {fetchSpotReviews } from '../../store/reviews'
-import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
 import { useModal } from "../../context/Modal";
-import DeleteConfirmationModal from "../DeleteReviewConfirmation/DeleteReviewModal";
-import "./SpotDetailPage.css";
+import "./SpotCalloutBox.css";
 
 const SpotCalloutBox = () => {
 

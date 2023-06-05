@@ -1,9 +1,16 @@
+// /home/alex5/BearBnB/backend/utils/validation.js
 const { check, validationResult } = require('express-validator');
 
-const handleValidationErrors = (req, _res, next) => {
-  const validationErrors = validationResult(req);
 
-  if (!validationErrors.isEmpty()) {
+
+const handleValidationErrors = (req, _res, next) => {
+  console.log('\n', 'BACKED UTILS VALIDATION RESULT', validationResult(req))
+  const validationErrors = validationResult(req);
+  console.log('\n', 'BACKED UTILS VALIDATION RESULT.ERRORS', validationErrors.errors)
+
+
+  if (validationErrors.errors.length) {
+    console.log('yes alex')
     const errors = {};
     validationErrors
       .array()
@@ -13,9 +20,14 @@ const handleValidationErrors = (req, _res, next) => {
     err.errors = errors;
     err.status = 400;
     err.title = "Bad request.";
+    console.log('\n', 'err.errors array',err.errors)
     next(err);
   }
   next();
+};
+
+module.exports = {
+  handleValidationErrors
 };
 
 const validateReviewBody = [

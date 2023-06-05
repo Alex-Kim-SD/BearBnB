@@ -1,3 +1,4 @@
+// /home/alex5/BearBnB/frontend/src/components/SignupFormModal/index.js
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -54,6 +55,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          {console.log('\n', 'Sign-up form Frontend errors', errors,'\n')}
         {errors.email && <p>{errors.email}</p>}
           <input
             placeholder="Username"
