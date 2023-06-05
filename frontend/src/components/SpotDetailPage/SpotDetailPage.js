@@ -9,6 +9,7 @@ import { useModal } from "../../context/Modal";
 import DeleteConfirmationModal from "../DeleteReviewConfirmation/DeleteReviewModal";
 import "./SpotDetailPage.css"
 
+
 const SpotDetailPage = () => {
 
   const { id } = useParams();
@@ -48,11 +49,12 @@ const SpotDetailPage = () => {
   const isOwner = currentUser?.id === owner?.id;
   // console.log('\n','SPOTDETAILPAGE LOG | isOwner',isOwner,'\n')
   // Event handlers
-  const handleReserveClick = () => {
-    alert("Feature coming soon");
-  };
+
   const handleDeleteClick = (reviewId) => {
     setModalContent(<DeleteConfirmationModal reviewId={reviewId} spotId={id} />);
+  };
+  const handleReserveClick = () => {
+    alert("Feature coming soon");
   };
   // Rendering
   return (
