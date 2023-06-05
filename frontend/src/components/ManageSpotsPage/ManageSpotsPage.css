@@ -14,6 +14,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 10px;
+
 }
 
 .manage-button:disabled {
@@ -26,12 +27,14 @@
 }
 
 .update-delete button {
-  margin-right: 10px; /* Adjust as needed */
+  margin: 5px; /* Adjust as needed */
+  margin-left: 0px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 .spot-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start; /* Aligns items to the top */
   justify-content: flex-start; /* Aligns items to the left */
 }
@@ -40,4 +43,8 @@
   object-fit: cover; /* Ensures image covers area without distortion */
   width: 100%; /* Adjust as needed */
   height: 100%; /* Adjust as needed */
+}
+
+.rating {
+  flex-direction: row;
 }

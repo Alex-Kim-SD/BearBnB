@@ -12,9 +12,9 @@ const ManageSpots = () => {
   const history = useHistory();
   const user = useSelector((state) => state.session.user);
   const { setModalContent } = useModal();
-  console.log('\n', 'ManageSpotsPage.js | User', user, '\n')
+  // console.log('\n', 'ManageSpotsPage.js | User', user, '\n')
   const spots = useSelector((state) => Object.values(state.spots.allSpots).filter((spot) => spot.owner_id === user?.id));
-  console.log('\n', 'SPOTS', spots, '\n')
+  // console.log('\n', 'SPOTS', spots, '\n')
   useEffect(() => {
     dispatch(fetchAllSpots());
   }, [dispatch]);
@@ -28,6 +28,7 @@ const ManageSpots = () => {
   };
 
   const handleEditSpot = (spotId) => {
+    console.log('\n','HANDLE EDIT SPOT',spotId)
     history.push(`/spots/${spotId}/edit`);
   };
 
@@ -48,10 +49,10 @@ const ManageSpots = () => {
                   </div>
                 </div>
                 <div className="price">${spot.price} night</div>
+                </div>
                 <div className='update-delete'>
                   <button onClick={() => handleEditSpot(spot.id)}>Update</button>
                   <button onClick={() => handleDeleteSpot(spot.id)}>Delete</button>
-                </div>
               </div>
 
             </div>

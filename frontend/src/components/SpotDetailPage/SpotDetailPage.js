@@ -40,7 +40,7 @@ const SpotDetailPage = () => {
   }
 
   const { name, city, state, country, owner, description, spotImages, price } = spot;
-  console.log('\n', 'SPOTDETAILPAGE LOG | reviews', reviews, '\n')
+  // console.log('\n', 'SPOTDETAILPAGE LOG | reviews', reviews, '\n')
   const avgReview = calculateAverageStars()
   const reviewCount = reviews ? reviews.length : 0
   const hasReviewed = reviews?.some((review) => review?.user_id === currentUser?.id) || false
@@ -110,12 +110,12 @@ const SpotDetailPage = () => {
               </button>
             )}
         </div>
-        
+
         {reviews?.length > 0 ? (
           <div className="review-list">
             {reviews.map((review) => (
               <div key={review.id} className="review-item">
-                {console.log('\n','REVIEW',review,'\n')}
+                {/* {console.log('\n','REVIEW',review,'\n')} */}
                 <p className="review-first-name">{review?.user?.first_name}</p>
                 <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
                 <p className="review-comment">{review?.review}</p>

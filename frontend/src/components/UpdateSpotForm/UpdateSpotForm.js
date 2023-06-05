@@ -26,7 +26,7 @@ const UpdateSpotForm = () => {
 
     useEffect(() => {
         dispatch(fetchSpotDetailReturnSpot(id)).then(spot => {
-            console.log('UPDATESPOTFORM.JS | SPOT', spot)
+            // console.log('UPDATESPOTFORM.JS | SPOT', spot)
             setFormState({
                 country: spot.country,
                 address: spot.address,
