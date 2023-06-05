@@ -86,7 +86,8 @@ const SpotDetailPage = () => {
         <div className="spot-callout">
           <div className="calloutpricereview">
             <h2>${price} night</h2>
-            {avgReview ? (<><span role="img" aria-label="star">🌟</span> {avgReview}</>) : ("New")}
+            {avgReview ? (<>🌟{avgReview}</>) : ("New")}
+            {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
           </div>
           <div className="calloutreservebutton">
             <button onClick={handleReserveClick}>Reserve</button>
@@ -98,21 +99,23 @@ const SpotDetailPage = () => {
       {/* ************************REVIEW FORM HERE************************ */}
       <div className="review-section">
         <div className="review-header">
-          {avgReview ? (<> <span role="img" aria-label="star">🌟</span> {avgReview} </>) : ("New")}
+          {avgReview ? (<> 🌟{avgReview} </>) : ("New")}
+          {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
+          </div>
+
           <div className="ReviewFormModal">
             {currentUser && !(hasReviewed || isOwner) && (
               <button onClick={() => setModalContent(<ReviewFormModal spotId={id} />)}>
                 Post Your Review
               </button>
             )}
-          </div>
-          {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
         </div>
+        
         {reviews?.length > 0 ? (
           <div className="review-list">
             {reviews.map((review) => (
               <div key={review.id} className="review-item">
-                {/* {console.log('\n','REVIEW',review,'\n')} */}
+                {console.log('\n','REVIEW',review,'\n')}
                 <p className="review-first-name">{review?.user?.first_name}</p>
                 <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
                 <p className="review-comment">{review?.review}</p>
