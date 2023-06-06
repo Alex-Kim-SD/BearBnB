@@ -5,81 +5,95 @@
 }
 
 #root {
-    padding-top: 5px;
-    padding-left: 25px;
-    padding-right: 25px;
-    box-sizing: border-box;
+  padding-top: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    text-overflow: wrap;
-    font-size: 18px;
-  }
+  font-family: Arial, sans-serif;
+  text-overflow: wrap;
+  font-size: 18px;
+}
 
-  form {
-    width: 50%;
-    margin: 0 auto;
-    padding: 20px;
-  }
+form {
+  padding: 20px;
+}
 
 
-  h2 {
-    color: #FF5A5F;
-    font-size: 24px;
-  }
+h2 {
+  color: #FF5A5F;
+  font-size: 24px;
+}
 
-  h3 {
-    color: #484848;
-    font-size: 20px;
-    margin-bottom: 5px;
-    font-family: 'Rubik', sans-serif;
-  }
+h3 {
+  color: #484848;
+  font-size: 20px;
+  margin-bottom: 5px;
+  font-family: 'Rubik', sans-serif;
+}
 
-  p {
-    color: #767676;
-    margin-bottom: 20px;
-  }
+p {
+  color: #767676;
+  margin-bottom: 20px;
+}
 
-  a {
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
+}
 
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #484848;
-  }
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #484848;
+}
 
-  input[type="text"], input[type="number"], input[type="url"], input[type="password"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+}
 
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
 
-  button {
-    background-color: #FF5A5F;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+button {
+  background-color: #FF5A5F;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  button:disabled {
-    background-color: #FFCECE;
-    cursor: not-allowed;
-  }
+button:disabled {
+  background-color: #FFCECE;
+  cursor: not-allowed;
+}
 
-  button:hover:not(:disabled) {
-    background-color: #FF3B40;
-  }
+button:hover:not(:disabled) {
+  background-color: #FF3B40;
+}
+
+#modal-content {
+  min-width: 320px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 3%;
+}
+
+input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}

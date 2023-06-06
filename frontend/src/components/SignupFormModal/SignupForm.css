@@ -5,17 +5,9 @@
     justify-content: center;
     text-align:center;
     margin: auto;
+    width: 500px;
 }
 
-#modal-content {
-    min-width: 320px;
-    width: 30%;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 3%;
+.signup-form{
+    width: 350px;
 }
-
-input {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
