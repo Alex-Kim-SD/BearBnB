@@ -1,7 +1,33 @@
-  .red-button {
-    background-color: red;
-  }
+.delete-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
 
-  .grey-button {
-   background-color: gray;
-  }
+.delete-modal h2,
+.delete-modal p {
+  width: 100%;
+  text-align: center;
+}
+
+.delete-modal .red-button,
+.delete-modal .grey-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+}
+
+.grey-button {
+  background-color: darkgray;
+  color: white;
+}
+
