@@ -13,3 +13,8 @@
   .empty:hover, .empty:hover ~ .filled {
     color: gold;
   }
+
+  .star-label {
+    margin-left: 5px;
+    font-size: 18px
+  }

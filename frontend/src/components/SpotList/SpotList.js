@@ -31,7 +31,6 @@ const SpotList = ({ showManageOptions }) => {
   };
   return (
     <div className="spot-list">
-      {/* <h2>Spot List</h2> */}
       <ul className="spot-ul">
         {spots && Object.values(spots).map((spot) => (
           <li
@@ -45,7 +44,7 @@ const SpotList = ({ showManageOptions }) => {
             <div className="below_image">
               <div className="city_state">{spot.city}, {spot.state}</div>
               <div className="rating">
-              {spot.avg_rating ? (<><span role="img" aria-label="star">🌟</span> {spot.avg_rating.toFixed(1)}</>) : ("New")}
+              {spot.avg_rating ? (<><span role="img" aria-label="star">🌟</span> {spot.avg_rating.toFixed(1)}</>) : ("🌟New")}
               </div>
             </div>
             <h2 className="price">${formatPrice(spot.price)}  night</h2>

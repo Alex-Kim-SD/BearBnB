@@ -32,11 +32,12 @@
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 }
 
-.spot-list {
+.spot-list-m {
+  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
   align-items: flex-start; /* Aligns items to the top */
-  justify-content: flex-start; /* Aligns items to the left */
+  justify-content: space-around; /* Aligns items to the left */
 }
 
 .spot-tile img {

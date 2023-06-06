@@ -36,7 +36,7 @@ const ManageSpots = () => {
     <div>
       <h2>Manage Spots</h2>
       {spots.length > 0 ? (
-        <div className="spot-list">
+        <div className="spot-list-m">
           {spots.map((spot) => (
             <div key={spot.id} className="spot-tile">
               <div onClick={() => handleSpotClick(spot.id)}>

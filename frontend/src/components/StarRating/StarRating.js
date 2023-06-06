@@ -18,8 +18,8 @@ function StarRating({ rating, onRatingChange }) {
   };
 
   return (
-    <div className="stars" style={{margin: "0px auto"}}>
-      <div className="rating-input" style={{display: "flex"}}>
+    <div className="stars-box">
+      <div className="rating-input" style={{ display: "flex" }}>
         {stars.map((star, index) => (
           <div
             key={index}
@@ -31,6 +31,7 @@ function StarRating({ rating, onRatingChange }) {
             <i className="fa fa-star" aria-hidden="true"></i>
           </div>
         ))}
+        <span className="star-label">Stars</span>
       </div>
     </div>
   );

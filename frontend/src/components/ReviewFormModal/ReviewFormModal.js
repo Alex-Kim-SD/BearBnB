@@ -27,12 +27,12 @@ function ReviewFormModal({ spotId }) {
   };
 
   return (
-    <>
-      <h1>How was your stay?</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="review-modal">
+      <h1 className="review-title">How was your stay?</h1>
+      <form className="review-form" onSubmit={handleSubmit}>
         <label>
-          Review
           <textarea
+          className="review-text"
             value={review}
             placeholder="Leave your review here..."
             onChange={(e) => setReview(e.target.value)}
@@ -40,20 +40,16 @@ function ReviewFormModal({ spotId }) {
           />
         </label>
         <label>
-          Stars
-          <StarRating
-            rating={stars}
-            onRatingChange={(newRating) => setStars(newRating)}
-          />
+          <StarRating rating={stars} onRatingChange={(newRating) => setStars(newRating)}/>
         </label>
         {errors.review && (
           <p>{errors.review}</p>
         )}
-        <button type="submit" disabled={review.length < 10 || stars === 0}>
+        <button className="submit-review-button" type="submit" disabled={review.length < 10 || stars === 0}>
         Submit Your Review
       </button>
       </form>
-    </>
+    </div>
   );
 }
 

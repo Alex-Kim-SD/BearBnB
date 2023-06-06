@@ -92,7 +92,7 @@ const SpotDetailPage = () => {
         <div className="spot-callout">
           <div className="calloutpricereview">
           <h2>${formatPrice(price)}  night</h2>
-            <div className="callout-review">{avgReview ? (<>🌟{avgReview}</>) : ("New")}
+            <div className="callout-review">{avgReview ? (<>🌟{avgReview}</>) : ("🌟New")}
             {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
             </div>
           </div>
@@ -106,7 +106,7 @@ const SpotDetailPage = () => {
       {/* ************************REVIEW FORM HERE************************ */}
       <div className="review-section">
         <div className="review-header">
-          {avgReview ? (<> 🌟{avgReview} </>) : ("New")}
+          {avgReview ? (<> 🌟{avgReview} </>) : ("🌟New")}
           {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
           </div>
 
