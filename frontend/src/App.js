@@ -19,6 +19,7 @@ function App() {
 
   return (
     <>
+    {/* <div className="container" style={{ width: '1024px', margin: '0 auto' }}> */}
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/"><LandingPage /></Route>
         </Switch>
       )}
+      {/* </div> */}
     </>
   );
 }

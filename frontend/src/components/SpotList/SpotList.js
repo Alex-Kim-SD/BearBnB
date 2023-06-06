@@ -23,7 +23,12 @@ const SpotList = ({ showManageOptions }) => {
   const handleDelete = (spotId) => {
     dispatch(deleteSpot(spotId));
   };
-
+  const formatPrice = (price) => {
+    if (Math.floor(price) === price) {
+      return price.toFixed(0);
+    }
+    return price.toFixed(2);
+  };
   return (
     <div className="spot-list">
       {/* <h2>Spot List</h2> */}
@@ -43,7 +48,7 @@ const SpotList = ({ showManageOptions }) => {
               {spot.avg_rating ? (<><span role="img" aria-label="star">🌟</span> {spot.avg_rating.toFixed(1)}</>) : ("New")}
               </div>
             </div>
-            <div className="price">${spot.price} night</div>
+            <h2 className="price">${formatPrice(spot.price)}  night</h2>
             {showManageOptions && (
               <div className="manage-options">
                 <button className="manage-button" onClick={() => history.push(`/spots/${spot.id}/edit`)}>Update</button>

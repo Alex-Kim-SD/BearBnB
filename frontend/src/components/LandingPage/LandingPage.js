@@ -4,7 +4,7 @@ import SpotList from '../SpotList/SpotList';
 
 const LandingPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <SpotList />
     </div>
   );

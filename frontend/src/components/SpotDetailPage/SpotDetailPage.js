@@ -56,10 +56,16 @@ const SpotDetailPage = () => {
   const handleReserveClick = () => {
     alert("Feature coming soon");
   };
+  const formatPrice = (price) => {
+    if (Math.floor(price) === price) {
+      return price.toFixed(0);
+    }
+    return price.toFixed(2);
+  };
   // Rendering
   return (
     <div id="spot-detail-page">
-      <h1>{name}</h1>
+      <h1 className="spot-detail-title">{name}</h1>
       <p>{city}, {state}, {country}</p>
       <div className="spot-images">
         {spotImages?.length > 0 ? (
@@ -85,9 +91,10 @@ const SpotDetailPage = () => {
 
         <div className="spot-callout">
           <div className="calloutpricereview">
-            <h2>${price} night</h2>
-            {avgReview ? (<>🌟{avgReview}</>) : ("New")}
+          <h2>${formatPrice(price)}  night</h2>
+            <div className="callout-review">{avgReview ? (<>🌟{avgReview}</>) : ("New")}
             {reviewCount > 0 && ` • ${reviewCount === 1 ? "1 review" : `${reviewCount} reviews`}`}
+            </div>
           </div>
           <div className="calloutreservebutton">
             <button onClick={handleReserveClick}>Reserve</button>
