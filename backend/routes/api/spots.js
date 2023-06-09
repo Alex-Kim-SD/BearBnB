@@ -233,7 +233,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
     }
 
     // Check if authenticated user is the owner of the spot
-    if (req.user.id !== spot.owner_id) {
+    if (req.user.id !== spot.owner_id || req.user.username !== 'Keira') {
       return res.status(401).json({ message: 'You are not authorized to perform this action.' });
     }
 
