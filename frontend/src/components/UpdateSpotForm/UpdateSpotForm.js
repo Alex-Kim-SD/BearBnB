@@ -122,10 +122,10 @@ const UpdateSpotForm = () => {
                 <input type="text" value={formState.state} onChange={(e) => setFormState({ ...formState, state: e.target.value })} />
             </label>
             <label>Latitude
-                <input type="float" value={formState.latitude} onChange={(e) => setFormState({ ...formState, latitude: e.target.value })} />
+                <input type="number" value={formState.latitude} onChange={(e) => setFormState({ ...formState, latitude: e.target.value })} />
             </label>
             <label>Longitude
-                <input type="float" value={formState.longitude} onChange={(e) => setFormState({ ...formState, longitude: e.target.value })} />
+                <input type="number" value={formState.longitude} onChange={(e) => setFormState({ ...formState, longitude: e.target.value })} />
             </label>
             <label>Description
                 <h3>Describe your place to guests</h3>
@@ -140,7 +140,7 @@ const UpdateSpotForm = () => {
             <h2>Set a base price for your spot</h2>
             <span>Competitive pricing can help your listing stand out and rank higher in search results.</span>
             <label>Price
-                <input type="float" value={formState.price} onChange={(e) => setFormState({ ...formState, price: e.target.value })} />
+                <input type="number" value={formState.price} onChange={(e) => setFormState({ ...formState, price: e.target.value })} />
             </label>
             <div className="form-submit">
                 <button type="submit" disabled={!formIsValid()}>Update Spot</button>

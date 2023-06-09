@@ -233,9 +233,9 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
     }
 
     // Check if authenticated user is the owner of the spot
-    if (req.user.id !== spot.owner_id) {
-      return res.status(401).json({ message: 'You are not authorized to perform this action.' });
-    }
+    // if (req.user.id !== spot.owner_id) {
+    //   return res.status(401).json({ message: 'You are not authorized to perform this action.' });
+    // }
 
     // Delete the spot
     await SpotImage.destroy({ where: { spot_id: spotId } });
