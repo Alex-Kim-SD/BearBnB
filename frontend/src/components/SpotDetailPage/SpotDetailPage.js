@@ -19,7 +19,7 @@ const SpotDetailPage = () => {
   const spot = useSelector((state) => state.spots.singleSpot[id]);
   const reviews = useSelector((state) => state.reviews.spotReviews[id] || []);
   // console.log('\n','SPOTDETAILPAGE LOG | SPOT', spot, '\n')
-   // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
+  // console.log('\n','SPOTDETAILPAGE LOG | Current User',currentUser,'\n')
 
   useEffect(() => {
     dispatch(fetchSpotDetail(id));
@@ -124,7 +124,7 @@ const SpotDetailPage = () => {
               <div key={review.id} className="review-item">
                 {/* {console.log('\n','REVIEW',review,'\n')} */}
                 <p className="review-first-name">{review?.user?.first_name}</p>
-                <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'numeric', year: 'numeric' })}</p>
+                <p className="review-date">{new Date(review?.updated_at).toLocaleString('en-US', { month: 'long', year: 'numeric' })}</p>
                 <p className="review-comment">{review?.review}</p>
                 {currentUser?.id === review.user_id && (
                   <button onClick={() => handleDeleteClick(review.id)}>Delete Review</button>

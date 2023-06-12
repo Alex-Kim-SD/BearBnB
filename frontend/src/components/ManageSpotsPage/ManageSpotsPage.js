@@ -32,6 +32,13 @@ const ManageSpots = () => {
     history.push(`/spots/${spotId}/edit`);
   };
 
+  const formatPrice = (price) => {
+    if (Math.floor(price) === price) {
+      return price.toFixed(0);
+    }
+    return price.toFixed(2);
+  };
+
   return (
     <div>
       <h2>Manage Spots</h2>
@@ -48,7 +55,7 @@ const ManageSpots = () => {
                     {spot.avg_rating ? (<><span role="img" aria-label="star">🌟</span> {spot.avg_rating.toFixed(1)}</>) : ("New")}
                   </div>
                 </div>
-                <div className="price">${spot.price} night</div>
+                <div className="price">${formatPrice(spot.price)} night</div>
                 </div>
                 <div className='update-delete'>
                   <button onClick={() => handleEditSpot(spot.id)}>Update</button>
