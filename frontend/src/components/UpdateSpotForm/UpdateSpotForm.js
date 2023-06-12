@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useStore, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateSpot, fetchSpotDetailReturnSpot } from '../../store/spots';
+import "./UpdateSpotForm.css";
+
 
 const UpdateSpotForm = () => {
     const history = useHistory();
@@ -105,7 +107,7 @@ const UpdateSpotForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className='UpdateSpotForm' onSubmit={handleSubmit}>
             <h2>Update Your Spot</h2>
             <h3>Where is your spot located?</h3>
             <p>Guests will only get your exact address once they booked a reservation.</p>
